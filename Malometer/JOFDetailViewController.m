@@ -14,6 +14,10 @@
 
 @implementation JOFDetailViewController
 
+NSArray *assessmentValues;
+NSArray *destroyPowerValues;
+NSArray *motivationValues;
+
 #pragma mark - Managing the detail item
 
 - (void)setDetailItem:(id)newDetailItem
@@ -26,26 +30,34 @@
     }
 }
 
-- (void)configureView
-{
-    // Update the user interface for the detail item.
-
-    if (self.detailItem) {
-        self.detailDescriptionLabel.text = [[self.detailItem valueForKey:@"timeStamp"] description];
-    }
-}
-
-- (void)viewDidLoad
-{
+- (void) viewDidLoad {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     [self configureView];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+
+- (void) configureView {
+    [self initializeAssesmentView];
+    [self initializeDestroyPowerViews];
+}
+
+
+- (void) initializeAssesmentView {
+    assessmentValues = @[@"No way", @"Better not", @"Maybe", @"Yes", @"A must"];
+    self.assessmentLabel.text = [assessmentValues objectAtIndex:0];
+}
+
+
+- (void) initializeDestroyPowerViews {
+    destroyPowerValues = @[@"Soft", @"Weak", @"Potential", @"Destroyer", @"Nuke"];
+    self.destroyPowerLabel.text = [destroyPowerValues objectAtIndex:0];
+}
+
+
+- (void) initializeMotivationViews {
+    motivationValues = @[@"Doesn't care", @"Would like to", @"Quite focused", @"Interested", @"Goal"];
+    self.motivationLabel.text = [motivationValues objectAtIndex:0];
 }
 
 @end

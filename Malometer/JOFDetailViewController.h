@@ -12,5 +12,11 @@
 
 @property (strong, nonatomic) id detailItem;
 
-@property (weak, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
+@property (weak, nonatomic) IBOutlet UITextField *nameTextField;
+@property (weak, nonatomic) IBOutlet UILabel *assessmentLabel;
+@property (weak, nonatomic) IBOutlet UIStepper *destroyPowerStepper;
+@property (weak, nonatomic) IBOutlet UILabel *destroyPowerLabel;
+@property (weak, nonatomic) IBOutlet UIStepper *motivationStepper;
+@property (weak, nonatomic) IBOutlet UILabel *motivationLabel;
+
 @end
