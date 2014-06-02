@@ -16,22 +16,17 @@
 
 @implementation JOFMasterViewController
 
-- (void)awakeFromNib
-{
-    [super awakeFromNib];
-}
+#pragma mark - Parameters & constants
 
-- (void)viewDidLoad
-{
+static NSString *const segueCreateAgent= @"CreateAgent";
+
+
+#pragma mark - Initialization
+
+- (void) viewDidLoad {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
 //    self.navigationItem.leftBarButtonItem = self.editButtonItem;
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 /*
@@ -104,14 +99,23 @@
     return NO;
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([[segue identifier] isEqualToString:@"showDetail"]) {
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        NSManagedObject *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
-        [[segue destinationViewController] setDetailItem:object];
+#pragma mark - Segues
+
+- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([[segue identifier] isEqualToString:segueCreateAgent]) {
+        JOFDetailViewController *agentEditVC = (JOFDetailViewController *)[segue.destinationViewController topViewController];
+        [self prepareAgentEditViewController:agentEditVC];
     }
 }
+
+
+- (void) prepareAgentEditViewController:(JOFDetailViewController *)agentEditVC {
+    NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
+    NSEntityDescription *entity = [[self.fetchedResultsController fetchRequest] entity];
+    NSManagedObject *newAgent = [NSEntityDescription insertNewObjectForEntityForName:[entity name] inManagedObjectContext:context];
+    agentEditVC.agent = newAgent;
+}
+
 
 #pragma mark - Fetched results controller
 

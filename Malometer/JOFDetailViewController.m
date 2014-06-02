@@ -20,10 +20,10 @@ NSArray *motivationValues;
 
 #pragma mark - Managing the detail item
 
-- (void)setDetailItem:(id)newDetailItem
+- (void)setAgent:(id)newDetailItem
 {
-    if (_detailItem != newDetailItem) {
-        _detailItem = newDetailItem;
+    if (_agent != newDetailItem) {
+        _agent = newDetailItem;
         
         // Update the view.
         [self configureView];

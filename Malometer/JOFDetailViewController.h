@@ -10,7 +10,7 @@
 
 @interface JOFDetailViewController : UIViewController
 
-@property (strong, nonatomic) id detailItem;
+@property (strong, nonatomic) id agent;
 
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
 @property (weak, nonatomic) IBOutlet UILabel *assessmentLabel;

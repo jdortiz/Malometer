@@ -45,9 +45,6 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <connections>
-                                    <segue destination="Ah7-4n-0Wa" kind="push" identifier="showDetail" id="jUr-3t-vfg"/>
-                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <sections/>
@@ -56,7 +53,13 @@
                             <outlet property="delegate" destination="pGg-6v-bdr" id="Y6K-Cp-Qkv"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Master" id="tQt-TN-PWz"/>
+                    <navigationItem key="navigationItem" title="Master" id="tQt-TN-PWz">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="pwA-HT-fPf">
+                            <connections>
+                                <segue destination="oLZ-A7-6FZ" kind="modal" identifier="CreateAgent" id="AsK-ZP-a6B"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6Cn-md-YlS" sceneMemberID="firstResponder"/>
             </objects>
@@ -133,6 +136,24 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lrm-kH-fPn" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1428" y="64"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="U0P-mk-PhW">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="oLZ-A7-6FZ" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Dhs-7w-nBW">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Ah7-4n-0Wa" kind="relationship" relationship="rootViewController" id="FLz-B2-Dgp"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DCv-d4-UKi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="902" y="64"/>
         </scene>
