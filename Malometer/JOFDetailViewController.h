@@ -7,10 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "JOFAgentEditViewControllerDelegate.h"
 
 @interface JOFDetailViewController : UIViewController
 
 @property (strong, nonatomic) id agent;
+@property (weak, nonatomic) id<JOFAgentEditViewControllerDelegate> delegate;
 
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
 @property (weak, nonatomic) IBOutlet UILabel *assessmentLabel;

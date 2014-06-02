@@ -60,4 +60,16 @@ NSArray *motivationValues;
     self.motivationLabel.text = [motivationValues objectAtIndex:0];
 }
 
+
+#pragma mark - UI actions
+
+- (IBAction) cancel:(id)sender {
+    [self.delegate dismissAgentEditViewController:self modifiedData:NO];
+}
+
+
+- (IBAction) save:(id)sender {
+    [self.delegate dismissAgentEditViewController:self modifiedData:YES];
+}
+
 @end

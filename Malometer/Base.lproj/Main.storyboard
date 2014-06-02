@@ -125,7 +125,18 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Detail" id="cra-N8-TIN"/>
+                    <navigationItem key="navigationItem" title="Detail" id="cra-N8-TIN">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="zb8-ul-el5">
+                            <connections>
+                                <action selector="cancel:" destination="Ah7-4n-0Wa" id="b4R-E7-BYD"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="7wg-dO-tGs">
+                            <connections>
+                                <action selector="save:" destination="Ah7-4n-0Wa" id="VJc-aa-tNn"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="assessmentLabel" destination="bc5-ZC-kYs" id="4DP-AX-Skw"/>
                         <outlet property="destroyPowerLabel" destination="6dJ-LA-LTU" id="eQ9-xA-eYb"/>
