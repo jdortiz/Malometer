@@ -81,9 +81,19 @@
     if (coordinator != nil) {
         _managedObjectContext = [[NSManagedObjectContext alloc] init];
         [_managedObjectContext setPersistentStoreCoordinator:coordinator];
+        
+        [self prepareUndoManagerForContext:_managedObjectContext];
+        
     }
     return _managedObjectContext;
 }
+
+- (void) prepareUndoManagerForContext:(NSManagedObjectContext *)moc {
+    moc.undoManager = [[NSUndoManager alloc] init];
+    moc.undoManager.groupsByEvent = NO;
+    moc.undoManager.levelsOfUndo = 10;
+}
+
 
 // Returns the managed object model for the application.
 // If the model doesn't already exist, it is created from the application's model.

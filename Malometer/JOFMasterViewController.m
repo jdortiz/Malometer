@@ -112,6 +112,7 @@ static NSString *const segueCreateAgent= @"CreateAgent";
 - (void) prepareAgentEditViewController:(JOFDetailViewController *)agentEditVC {
     NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
     NSEntityDescription *entity = [[self.fetchedResultsController fetchRequest] entity];
+    [context.undoManager beginUndoGrouping];
     NSManagedObject *newAgent = [NSEntityDescription insertNewObjectForEntityForName:[entity name] inManagedObjectContext:context];
     agentEditVC.agent = newAgent;
     agentEditVC.delegate = self;
@@ -228,6 +229,26 @@ static NSString *const segueCreateAgent= @"CreateAgent";
 
 - (void) dismissAgentEditViewController:(JOFDetailViewController *)agentEditVC
                            modifiedData:(BOOL)modifiedData {
+    [self.managedObjectContext.undoManager setActionName:@"New agent"];
+    [self.managedObjectContext.undoManager endUndoGrouping];
+    if (modifiedData) {
+        [self saveContext];
+    } else {
+        [self.managedObjectContext.undoManager undo];
+    }
     [self dismissViewControllerAnimated:YES completion:nil];
 }
+
+
+- (void) saveContext {
+    // Save the context.
+    NSError *error = nil;
+    if (![self.managedObjectContext save:&error]) {
+        // Replace this implementation with code to handle the error appropriately.
+        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }
+}
+
 @end
