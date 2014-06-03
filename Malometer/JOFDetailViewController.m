@@ -18,17 +18,7 @@ NSArray *assessmentValues;
 NSArray *destroyPowerValues;
 NSArray *motivationValues;
 
-#pragma mark - Managing the detail item
-
-- (void)setAgent:(id)newDetailItem
-{
-    if (_agent != newDetailItem) {
-        _agent = newDetailItem;
-        
-        // Update the view.
-        [self configureView];
-    }
-}
+#pragma mark - Initialization of the views
 
 - (void) viewDidLoad {
     [super viewDidLoad];
@@ -46,19 +36,19 @@ NSArray *motivationValues;
 
 - (void) initializeAssesmentView {
     assessmentValues = @[@"No way", @"Better not", @"Maybe", @"Yes", @"A must"];
-    self.assessmentLabel.text = [assessmentValues objectAtIndex:0];
+    [self displayAssessmentLabel];
 }
 
 
 - (void) initializeDestroyPowerViews {
     destroyPowerValues = @[@"Soft", @"Weak", @"Potential", @"Destroyer", @"Nuke"];
-    self.destroyPowerLabel.text = [destroyPowerValues objectAtIndex:0];
+    [self displayDestroyPowerLabel];
 }
 
 
 - (void) initializeMotivationViews {
     motivationValues = @[@"Doesn't care", @"Would like to", @"Quite focused", @"Interested", @"Goal"];
-    self.motivationLabel.text = [motivationValues objectAtIndex:0];
+    [self displayMotivationLabel];
 }
 
 
@@ -81,16 +71,62 @@ NSArray *motivationValues;
 
 
 - (IBAction) changeDestroyPower:(id)sender {
+    [self updateDestroyPowerValue];
+    [self updateDestroyPowerViews];
+}
+
+
+- (IBAction) changeMotivation:(id)sender {
+    [self updateMotivationValue];
+    [self updateMotivationViews];
+}
+
+
+- (void) updateDestroyPowerValue {
     NSUInteger newDestroyPower = (NSUInteger)(self.destroyPowerStepper.value + 0.5);
     [self.agent setValue:@(newDestroyPower)
                   forKey:@"destructionPower"];
 }
 
 
-- (IBAction) changeMotivation:(id)sender {
+- (void) updateMotivationValue {
     NSUInteger newMotivation = (NSUInteger)(self.motivationStepper.value + 0.5);
     [self.agent setValue:@(newMotivation)
                   forKey:@"motivation"];
+}
+
+
+- (void) updateDestroyPowerViews {
+    [self displayDestroyPowerLabel];
+    [self displayAssessmentLabel];
+}
+
+
+- (void) updateMotivationViews {
+    [self displayMotivationLabel];
+    [self displayAssessmentLabel];
+}
+
+
+#pragma mark - Presentation
+
+- (void) displayDestroyPowerLabel {
+    NSUInteger destroyPower = [[self.agent valueForKey:@"destructionPower"] unsignedIntegerValue];
+    self.destroyPowerLabel.text = [destroyPowerValues objectAtIndex:destroyPower];
+}
+
+
+- (void) displayMotivationLabel {
+    NSUInteger motivation = [[self.agent valueForKey:@"motivation"] unsignedIntegerValue];
+    self.motivationLabel.text = [motivationValues objectAtIndex:motivation];
+}
+
+
+- (void) displayAssessmentLabel {
+    NSUInteger destroyPower = [[self.agent valueForKey:@"destructionPower"] unsignedIntegerValue];
+    NSUInteger motivation = [[self.agent valueForKey:@"motivation"] unsignedIntegerValue];
+    NSUInteger assessment = (destroyPower + motivation) / 2;
+    self.assessmentLabel.text = [assessmentValues objectAtIndex:assessment];
 }
 
 @end
