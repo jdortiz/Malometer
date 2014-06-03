@@ -40,6 +40,7 @@ NSArray *motivationValues;
 - (void) configureView {
     [self initializeAssesmentView];
     [self initializeDestroyPowerViews];
+    [self initializeMotivationViews];
 }
 
 
@@ -69,7 +70,27 @@ NSArray *motivationValues;
 
 
 - (IBAction) save:(id)sender {
+    [self assignDataToAgent];
     [self.delegate dismissAgentEditViewController:self modifiedData:YES];
+}
+
+
+- (void) assignDataToAgent {
+    [self.agent setValue:self.nameTextField.text forKey:@"name"];
+}
+
+
+- (IBAction) changeDestroyPower:(id)sender {
+    NSUInteger newDestroyPower = (NSUInteger)(self.destroyPowerStepper.value + 0.5);
+    [self.agent setValue:@(newDestroyPower)
+                  forKey:@"destructionPower"];
+}
+
+
+- (IBAction) changeMotivation:(id)sender {
+    NSUInteger newMotivation = (NSUInteger)(self.motivationStepper.value + 0.5);
+    [self.agent setValue:@(newMotivation)
+                  forKey:@"motivation"];
 }
 
 @end
