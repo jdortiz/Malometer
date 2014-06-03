@@ -6,15 +6,15 @@
 //  Copyright (c) 2014 PoWWaU. All rights reserved.
 //
 
-#import "JOFMasterViewController.h"
+#import "JOFAgentsViewController.h"
 
-#import "JOFDetailViewController.h"
+#import "JOFAgentEditViewController.h"
 
-@interface JOFMasterViewController ()
+@interface JOFAgentsViewController ()
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 @end
 
-@implementation JOFMasterViewController
+@implementation JOFAgentsViewController
 
 #pragma mark - Parameters & constants
 
@@ -29,27 +29,6 @@ static NSString *const segueCreateAgent= @"CreateAgent";
 //    self.navigationItem.leftBarButtonItem = self.editButtonItem;
 }
 
-/*
-- (void)insertNewObject:(id)sender
-{
-    NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
-    NSEntityDescription *entity = [[self.fetchedResultsController fetchRequest] entity];
-    NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:[entity name] inManagedObjectContext:context];
-    
-    // If appropriate, configure the new managed object.
-    // Normally you should use accessor methods, but using KVC here avoids the need to add a custom class to the template.
-    [newManagedObject setValue:[NSDate date] forKey:@"timeStamp"];
-    
-    // Save the context.
-    NSError *error = nil;
-    if (![context save:&error]) {
-         // Replace this implementation with code to handle the error appropriately.
-         // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. 
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        abort();
-    }
-}
-*/
 
 #pragma mark - Table View
 
@@ -103,13 +82,13 @@ static NSString *const segueCreateAgent= @"CreateAgent";
 
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:segueCreateAgent]) {
-        JOFDetailViewController *agentEditVC = (JOFDetailViewController *)[segue.destinationViewController topViewController];
+        JOFAgentEditViewController *agentEditVC = (JOFAgentEditViewController *)[segue.destinationViewController topViewController];
         [self prepareAgentEditViewController:agentEditVC];
     }
 }
 
 
-- (void) prepareAgentEditViewController:(JOFDetailViewController *)agentEditVC {
+- (void) prepareAgentEditViewController:(JOFAgentEditViewController *)agentEditVC {
     NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
     NSEntityDescription *entity = [[self.fetchedResultsController fetchRequest] entity];
     [context.undoManager beginUndoGrouping];
@@ -227,7 +206,7 @@ static NSString *const segueCreateAgent= @"CreateAgent";
 
 #pragma mark - Agent edit view controller delegate
 
-- (void) dismissAgentEditViewController:(JOFDetailViewController *)agentEditVC
+- (void) dismissAgentEditViewController:(JOFAgentEditViewController *)agentEditVC
                            modifiedData:(BOOL)modifiedData {
     [self.managedObjectContext.undoManager setActionName:@"New agent"];
     [self.managedObjectContext.undoManager endUndoGrouping];

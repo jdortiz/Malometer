@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "JOFAgentEditViewControllerDelegate.h"
 
-@interface JOFDetailViewController : UIViewController
+@interface JOFAgentEditViewController : UIViewController
 
 @property (strong, nonatomic) id agent;
 @property (weak, nonatomic) id<JOFAgentEditViewControllerDelegate> delegate;

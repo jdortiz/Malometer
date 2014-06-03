@@ -6,13 +6,13 @@
 //  Copyright (c) 2014 PoWWaU. All rights reserved.
 //
 
-#import "JOFDetailViewController.h"
+#import "JOFAgentEditViewController.h"
 
-@interface JOFDetailViewController ()
+@interface JOFAgentEditViewController ()
 - (void)configureView;
 @end
 
-@implementation JOFDetailViewController
+@implementation JOFAgentEditViewController
 
 NSArray *assessmentValues;
 NSArray *destroyPowerValues;

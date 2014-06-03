@@ -9,12 +9,12 @@
 
 #import <Foundation/Foundation.h>
 
-@class JOFDetailViewController;
+@class JOFAgentEditViewController;
 
 
 @protocol JOFAgentEditViewControllerDelegate <NSObject>
 
-- (void) dismissAgentEditViewController:(JOFDetailViewController *)agentEditVC
+- (void) dismissAgentEditViewController:(JOFAgentEditViewController *)agentEditVC
                            modifiedData:(BOOL)modifiedData;
 
 @end

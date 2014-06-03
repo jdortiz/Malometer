@@ -11,7 +11,7 @@
 #import "JOFAgentEditViewControllerDelegate.h"
 
 
-@interface JOFMasterViewController : UITableViewController <NSFetchedResultsControllerDelegate, JOFAgentEditViewControllerDelegate>
+@interface JOFAgentsViewController : UITableViewController <NSFetchedResultsControllerDelegate, JOFAgentEditViewControllerDelegate>
 
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;

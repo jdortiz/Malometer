@@ -6,9 +6,10 @@
 //  Copyright (c) 2014 PoWWaU. All rights reserved.
 //
 
-#import "JOFAppDelegate.h"
 
-#import "JOFMasterViewController.h"
+#import "JOFAppDelegate.h"
+#import "JOFAgentsViewController.h"
+
 
 @implementation JOFAppDelegate
 
@@ -20,7 +21,7 @@
 {
     // Override point for customization after application launch.
     UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
-    JOFMasterViewController *controller = (JOFMasterViewController *)navigationController.topViewController;
+    JOFAgentsViewController *controller = (JOFAgentsViewController *)navigationController.topViewController;
     controller.managedObjectContext = self.managedObjectContext;
     return YES;
 }
