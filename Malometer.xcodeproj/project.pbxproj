@@ -16,8 +16,8 @@
 		CF2744EA193BDE160057C795 /* JOFAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CF2744E9193BDE160057C795 /* JOFAppDelegate.m */; };
 		CF2744ED193BDE160057C795 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF2744EB193BDE160057C795 /* Main.storyboard */; };
 		CF2744F0193BDE160057C795 /* Malometer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CF2744EE193BDE160057C795 /* Malometer.xcdatamodeld */; };
-		CF2744F3193BDE160057C795 /* JOFMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF2744F2193BDE160057C795 /* JOFMasterViewController.m */; };
-		CF2744F6193BDE160057C795 /* JOFDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF2744F5193BDE160057C795 /* JOFDetailViewController.m */; };
+		CF2744F3193BDE160057C795 /* JOFAgentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF2744F2193BDE160057C795 /* JOFAgentsViewController.m */; };
+		CF2744F6193BDE160057C795 /* JOFAgentEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF2744F5193BDE160057C795 /* JOFAgentEditViewController.m */; };
 		CF2744F8193BDE160057C795 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CF2744F7193BDE160057C795 /* Images.xcassets */; };
 		CF2744FF193BDE160057C795 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF2744FE193BDE160057C795 /* XCTest.framework */; };
 		CF274500193BDE160057C795 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF2744D7193BDE160057C795 /* Foundation.framework */; };
@@ -51,16 +51,17 @@
 		CF2744E9193BDE160057C795 /* JOFAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JOFAppDelegate.m; sourceTree = "<group>"; };
 		CF2744EC193BDE160057C795 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		CF2744EF193BDE160057C795 /* Malometer.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Malometer.xcdatamodel; sourceTree = "<group>"; };
-		CF2744F1193BDE160057C795 /* JOFMasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JOFMasterViewController.h; sourceTree = "<group>"; };
-		CF2744F2193BDE160057C795 /* JOFMasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JOFMasterViewController.m; sourceTree = "<group>"; };
-		CF2744F4193BDE160057C795 /* JOFDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JOFDetailViewController.h; sourceTree = "<group>"; };
-		CF2744F5193BDE160057C795 /* JOFDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JOFDetailViewController.m; sourceTree = "<group>"; };
+		CF2744F1193BDE160057C795 /* JOFAgentsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JOFAgentsViewController.h; sourceTree = "<group>"; };
+		CF2744F2193BDE160057C795 /* JOFAgentsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JOFAgentsViewController.m; sourceTree = "<group>"; };
+		CF2744F4193BDE160057C795 /* JOFAgentEditViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JOFAgentEditViewController.h; sourceTree = "<group>"; };
+		CF2744F5193BDE160057C795 /* JOFAgentEditViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JOFAgentEditViewController.m; sourceTree = "<group>"; };
 		CF2744F7193BDE160057C795 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		CF2744FD193BDE160057C795 /* MalometerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MalometerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF2744FE193BDE160057C795 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		CF274507193BDE160057C795 /* MalometerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MalometerTests-Info.plist"; sourceTree = "<group>"; };
 		CF274509193BDE160057C795 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CF27450B193BDE160057C795 /* MalometerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MalometerTests.m; sourceTree = "<group>"; };
+		CF4FE4F1193C5C3700E77955 /* JOFAgentEditViewControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JOFAgentEditViewControllerDelegate.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,10 +127,11 @@
 				CF2744E8193BDE160057C795 /* JOFAppDelegate.h */,
 				CF2744E9193BDE160057C795 /* JOFAppDelegate.m */,
 				CF2744EB193BDE160057C795 /* Main.storyboard */,
-				CF2744F1193BDE160057C795 /* JOFMasterViewController.h */,
-				CF2744F2193BDE160057C795 /* JOFMasterViewController.m */,
-				CF2744F4193BDE160057C795 /* JOFDetailViewController.h */,
-				CF2744F5193BDE160057C795 /* JOFDetailViewController.m */,
+				CF2744F1193BDE160057C795 /* JOFAgentsViewController.h */,
+				CF2744F2193BDE160057C795 /* JOFAgentsViewController.m */,
+				CF4FE4F1193C5C3700E77955 /* JOFAgentEditViewControllerDelegate.h */,
+				CF2744F4193BDE160057C795 /* JOFAgentEditViewController.h */,
+				CF2744F5193BDE160057C795 /* JOFAgentEditViewController.m */,
 				CF2744F7193BDE160057C795 /* Images.xcassets */,
 				CF2744EE193BDE160057C795 /* Malometer.xcdatamodeld */,
 				CF2744E0193BDE160057C795 /* Supporting Files */,
@@ -266,9 +268,9 @@
 			files = (
 				CF2744EA193BDE160057C795 /* JOFAppDelegate.m in Sources */,
 				CF2744E6193BDE160057C795 /* main.m in Sources */,
-				CF2744F3193BDE160057C795 /* JOFMasterViewController.m in Sources */,
+				CF2744F3193BDE160057C795 /* JOFAgentsViewController.m in Sources */,
 				CF2744F0193BDE160057C795 /* Malometer.xcdatamodeld in Sources */,
-				CF2744F6193BDE160057C795 /* JOFDetailViewController.m in Sources */,
+				CF2744F6193BDE160057C795 /* JOFAgentEditViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -473,6 +475,7 @@
 				CF274511193BDE160057C795 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		CF274512193BDE160057C795 /* Build configuration list for PBXNativeTarget "MalometerTests" */ = {
 			isa = XCConfigurationList;
@@ -481,6 +484,7 @@
 				CF274514193BDE160057C795 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
