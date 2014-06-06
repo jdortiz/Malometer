@@ -7,12 +7,15 @@
 //
 
 #import "JOFAgentsViewController.h"
-
 #import "JOFAgentEditViewController.h"
+#import "Agent.h"
+
 
 @interface JOFAgentsViewController ()
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 @end
+
+
 
 @implementation JOFAgentsViewController
 
@@ -92,7 +95,7 @@ static NSString *const segueCreateAgent= @"CreateAgent";
     NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
     NSEntityDescription *entity = [[self.fetchedResultsController fetchRequest] entity];
     [context.undoManager beginUndoGrouping];
-    NSManagedObject *newAgent = [NSEntityDescription insertNewObjectForEntityForName:[entity name] inManagedObjectContext:context];
+    Agent *newAgent = [NSEntityDescription insertNewObjectForEntityForName:[entity name] inManagedObjectContext:context];
     agentEditVC.agent = newAgent;
     agentEditVC.delegate = self;
 }
@@ -199,8 +202,8 @@ static NSString *const segueCreateAgent= @"CreateAgent";
 
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
-    NSManagedObject *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    cell.textLabel.text = [[object valueForKey:@"name"] description];
+    Agent *agent = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    cell.textLabel.text = agent.name;
 }
 
 

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CF0A9D2619422C39000F6DC4 /* Agent.m in Sources */ = {isa = PBXBuildFile; fileRef = CF0A9D2519422C39000F6DC4 /* Agent.m */; };
 		CF2744D8193BDE160057C795 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF2744D7193BDE160057C795 /* Foundation.framework */; };
 		CF2744DA193BDE160057C795 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF2744D9193BDE160057C795 /* CoreGraphics.framework */; };
 		CF2744DC193BDE160057C795 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF2744DB193BDE160057C795 /* UIKit.framework */; };
@@ -38,6 +39,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CF0A9D2419422C39000F6DC4 /* Agent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Agent.h; sourceTree = "<group>"; };
+		CF0A9D2519422C39000F6DC4 /* Agent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Agent.m; sourceTree = "<group>"; };
 		CF2744D4193BDE160057C795 /* Malometer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Malometer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF2744D7193BDE160057C795 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CF2744D9193BDE160057C795 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -124,6 +127,8 @@
 		CF2744DF193BDE160057C795 /* Malometer */ = {
 			isa = PBXGroup;
 			children = (
+				CF0A9D2419422C39000F6DC4 /* Agent.h */,
+				CF0A9D2519422C39000F6DC4 /* Agent.m */,
 				CF2744E8193BDE160057C795 /* JOFAppDelegate.h */,
 				CF2744E9193BDE160057C795 /* JOFAppDelegate.m */,
 				CF2744EB193BDE160057C795 /* Main.storyboard */,
@@ -269,6 +274,7 @@
 				CF2744EA193BDE160057C795 /* JOFAppDelegate.m in Sources */,
 				CF2744E6193BDE160057C795 /* main.m in Sources */,
 				CF2744F3193BDE160057C795 /* JOFAgentsViewController.m in Sources */,
+				CF0A9D2619422C39000F6DC4 /* Agent.m in Sources */,
 				CF2744F0193BDE160057C795 /* Malometer.xcdatamodeld in Sources */,
 				CF2744F6193BDE160057C795 /* JOFAgentEditViewController.m in Sources */,
 			);

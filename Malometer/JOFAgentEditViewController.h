@@ -9,9 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "JOFAgentEditViewControllerDelegate.h"
 
+@class Agent;
+
+
 @interface JOFAgentEditViewController : UIViewController
 
-@property (strong, nonatomic) id agent;
+@property (strong, nonatomic) Agent *agent;
 @property (weak, nonatomic) id<JOFAgentEditViewControllerDelegate> delegate;
 
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;

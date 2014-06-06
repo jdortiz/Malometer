@@ -7,10 +7,14 @@
 //
 
 #import "JOFAgentEditViewController.h"
+#import "Agent.h"
+
 
 @interface JOFAgentEditViewController ()
 - (void)configureView;
 @end
+
+
 
 @implementation JOFAgentEditViewController
 
@@ -66,7 +70,7 @@ NSArray *motivationValues;
 
 
 - (void) assignDataToAgent {
-    [self.agent setValue:self.nameTextField.text forKey:@"name"];
+    self.agent.name = self.nameTextField.text;
 }
 
 
@@ -84,15 +88,13 @@ NSArray *motivationValues;
 
 - (void) updateDestroyPowerValue {
     NSUInteger newDestroyPower = (NSUInteger)(self.destroyPowerStepper.value + 0.5);
-    [self.agent setValue:@(newDestroyPower)
-                  forKey:@"destructionPower"];
+    self.agent.destructionPower = @(newDestroyPower);
 }
 
 
 - (void) updateMotivationValue {
     NSUInteger newMotivation = (NSUInteger)(self.motivationStepper.value + 0.5);
-    [self.agent setValue:@(newMotivation)
-                  forKey:@"motivation"];
+    self.agent.motivation = @(newMotivation);
 }
 
 
@@ -111,20 +113,20 @@ NSArray *motivationValues;
 #pragma mark - Presentation
 
 - (void) displayDestroyPowerLabel {
-    NSUInteger destroyPower = [[self.agent valueForKey:@"destructionPower"] unsignedIntegerValue];
+    NSUInteger destroyPower = [self.agent.destructionPower unsignedIntegerValue];
     self.destroyPowerLabel.text = [destroyPowerValues objectAtIndex:destroyPower];
 }
 
 
 - (void) displayMotivationLabel {
-    NSUInteger motivation = [[self.agent valueForKey:@"motivation"] unsignedIntegerValue];
+    NSUInteger motivation = [self.agent.motivation unsignedIntegerValue];
     self.motivationLabel.text = [motivationValues objectAtIndex:motivation];
 }
 
 
 - (void) displayAssessmentLabel {
-    NSUInteger destroyPower = [[self.agent valueForKey:@"destructionPower"] unsignedIntegerValue];
-    NSUInteger motivation = [[self.agent valueForKey:@"motivation"] unsignedIntegerValue];
+    NSUInteger destroyPower = [self.agent.destructionPower unsignedIntegerValue];
+    NSUInteger motivation = [self.agent.motivation unsignedIntegerValue];
     NSUInteger assessment = (destroyPower + motivation) / 2;
     self.assessmentLabel.text = [assessmentValues objectAtIndex:assessment];
 }
