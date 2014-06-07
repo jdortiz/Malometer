@@ -69,6 +69,8 @@ NSArray *motivationValues;
               options:0 context:NULL];
     [self addObserver:self forKeyPath:@"agent.motivation"
               options:0 context:NULL];
+    [self addObserver:self forKeyPath:@"agent.assessment"
+              options:0 context:NULL];
 }
 
 
@@ -81,6 +83,7 @@ NSArray *motivationValues;
 - (void) removeObserverForProperties {
     [self removeObserver:self forKeyPath:@"agent.destructionPower"];
     [self removeObserver:self forKeyPath:@"agent.motivation"];
+    [self removeObserver:self forKeyPath:@"agent.assessment"];
 }
 
 
@@ -103,24 +106,12 @@ NSArray *motivationValues;
 
 
 - (IBAction) changeDestroyPower:(id)sender {
-    [self updateDestroyPowerValue];
-    [self displayAssessmentLabel];
-}
-
-
-- (IBAction) changeMotivation:(id)sender {
-    [self updateMotivationValue];
-    [self displayAssessmentLabel];
-}
-
-
-- (void) updateDestroyPowerValue {
     NSUInteger newDestroyPower = (NSUInteger)(self.destroyPowerStepper.value + 0.5);
     self.agent.destructionPower = @(newDestroyPower);
 }
 
 
-- (void) updateMotivationValue {
+- (IBAction) changeMotivation:(id)sender {
     NSUInteger newMotivation = (NSUInteger)(self.motivationStepper.value + 0.5);
     self.agent.motivation = @(newMotivation);
 }
@@ -134,6 +125,8 @@ NSArray *motivationValues;
         [self displayDestroyPowerLabel];
     } else if ([keyPath isEqualToString:@"agent.motivation"]){
         [self displayMotivationLabel];
+    } else if ([keyPath isEqualToString:@"agent.assessment"]){
+        [self displayAssessmentLabel];
     }
 
 }
@@ -154,10 +147,7 @@ NSArray *motivationValues;
 
 
 - (void) displayAssessmentLabel {
-    NSUInteger destroyPower = [self.agent.destructionPower unsignedIntegerValue];
-    NSUInteger motivation = [self.agent.motivation unsignedIntegerValue];
-    NSUInteger assessment = (destroyPower + motivation) / 2;
-    self.assessmentLabel.text = [assessmentValues objectAtIndex:assessment];
+    self.assessmentLabel.text = [assessmentValues objectAtIndex:[self.agent.assessment unsignedIntegerValue]];
 }
 
 @end
