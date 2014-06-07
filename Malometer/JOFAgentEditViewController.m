@@ -56,6 +56,34 @@ NSArray *motivationValues;
 }
 
 
+#pragma mark - Things to do while the view controller is shown
+
+- (void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self addObserverForProperties];
+}
+
+
+- (void) addObserverForProperties {
+    [self addObserver:self forKeyPath:@"agent.destructionPower"
+              options:0 context:NULL];
+    [self addObserver:self forKeyPath:@"agent.motivation"
+              options:0 context:NULL];
+}
+
+
+- (void) viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [self removeObserverForProperties];
+}
+
+
+- (void) removeObserverForProperties {
+    [self removeObserver:self forKeyPath:@"agent.destructionPower"];
+    [self removeObserver:self forKeyPath:@"agent.motivation"];
+}
+
+
 #pragma mark - UI actions
 
 - (IBAction) cancel:(id)sender {
@@ -76,13 +104,13 @@ NSArray *motivationValues;
 
 - (IBAction) changeDestroyPower:(id)sender {
     [self updateDestroyPowerValue];
-    [self updateDestroyPowerViews];
+    [self displayAssessmentLabel];
 }
 
 
 - (IBAction) changeMotivation:(id)sender {
     [self updateMotivationValue];
-    [self updateMotivationViews];
+    [self displayAssessmentLabel];
 }
 
 
@@ -98,15 +126,16 @@ NSArray *motivationValues;
 }
 
 
-- (void) updateDestroyPowerViews {
-    [self displayDestroyPowerLabel];
-    [self displayAssessmentLabel];
-}
+#pragma mark - Observations
 
+- (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object
+                         change:(NSDictionary *)change context:(void *)context {
+    if ([keyPath isEqualToString:@"agent.destructionPower"]){
+        [self displayDestroyPowerLabel];
+    } else if ([keyPath isEqualToString:@"agent.motivation"]){
+        [self displayMotivationLabel];
+    }
 
-- (void) updateMotivationViews {
-    [self displayMotivationLabel];
-    [self displayAssessmentLabel];
 }
 
 
