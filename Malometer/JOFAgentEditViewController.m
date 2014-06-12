@@ -150,4 +150,16 @@ NSArray *motivationValues;
     self.assessmentLabel.text = [assessmentValues objectAtIndex:[self.agent.assessment unsignedIntegerValue]];
 }
 
+
+#pragma mark - Text Field Delegate Methods
+
+- (BOOL) textFieldShouldReturn:(UITextField *)textField {
+    BOOL shouldReturn = YES;
+    if (textField == self.nameTextField) {
+        [textField resignFirstResponder];
+        shouldReturn = NO;
+    }
+    
+    return shouldReturn;
+}
 @end

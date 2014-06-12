@@ -12,7 +12,7 @@
 @class Agent;
 
 
-@interface JOFAgentEditViewController : UIViewController
+@interface JOFAgentEditViewController : UIViewController <UITextFieldDelegate>
 
 @property (strong, nonatomic) Agent *agent;
 @property (weak, nonatomic) id<JOFAgentEditViewControllerDelegate> delegate;
