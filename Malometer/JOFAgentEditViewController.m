@@ -26,12 +26,12 @@ NSArray *motivationValues;
 
 - (void) viewDidLoad {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
     [self configureView];
 }
 
 
 - (void) configureView {
+    [self displayAgentName];
     [self initializeAssesmentView];
     [self initializeDestroyPowerViews];
     [self initializeMotivationViews];
@@ -46,13 +46,25 @@ NSArray *motivationValues;
 
 - (void) initializeDestroyPowerViews {
     destroyPowerValues = @[@"Soft", @"Weak", @"Potential", @"Destroyer", @"Nuke"];
+    [self initializeDestroyPowerStepper];
     [self displayDestroyPowerLabel];
+}
+
+
+- (void) initializeDestroyPowerStepper {
+    self.destroyPowerStepper.value = [self.agent.destructionPower doubleValue];
 }
 
 
 - (void) initializeMotivationViews {
     motivationValues = @[@"Doesn't care", @"Would like to", @"Quite focused", @"Interested", @"Goal"];
+    [self initializeMotivationStepper];
     [self displayMotivationLabel];
+}
+
+
+- (void) initializeMotivationStepper {
+    self.motivationStepper.value = [self.agent.motivation doubleValue];
 }
 
 
@@ -133,6 +145,11 @@ NSArray *motivationValues;
 
 
 #pragma mark - Presentation
+
+- (void) displayAgentName {
+    self.nameTextField.text = self.agent.name;
+}
+
 
 - (void) displayDestroyPowerLabel {
     NSUInteger destroyPower = [self.agent.destructionPower unsignedIntegerValue];
