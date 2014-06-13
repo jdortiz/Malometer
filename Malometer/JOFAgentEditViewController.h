@@ -10,13 +10,16 @@
 #import "JOFAgentEditViewControllerDelegate.h"
 
 @class Agent;
+@class JOFImageMapper;
 
 
-@interface JOFAgentEditViewController : UIViewController <UITextFieldDelegate>
+@interface JOFAgentEditViewController : UIViewController <UITextFieldDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @property (strong, nonatomic) Agent *agent;
 @property (weak, nonatomic) id<JOFAgentEditViewControllerDelegate> delegate;
+@property (strong, nonatomic) JOFImageMapper *imageMapper;
 
+@property (weak, nonatomic) IBOutlet UIButton *imageButton;
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
 @property (weak, nonatomic) IBOutlet UILabel *assessmentLabel;
 @property (weak, nonatomic) IBOutlet UIStepper *destroyPowerStepper;

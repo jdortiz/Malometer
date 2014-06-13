@@ -7,11 +7,29 @@
 //
 
 #import "JOFAgentEditViewController.h"
-#import "Agent.h"
+#import "Agent+Model.h"
+#import "UIImage+AgentAdjust.h"
+#import "JOFImageMapper.h"
+
+typedef NS_ENUM(NSInteger, actionSheetButtons) {
+    actionSheetTakePicture = 0, // actionSheet.firstOtherButtonIndex
+    actionSheetLibrary,
+    actionSheetEditPicture
+};
+
+typedef NS_ENUM(NSInteger, ImageStatus) {
+    ImageStatusDoNothing = 0,
+    ImageStatusPreserveNew,
+    ImageStatusDelete
+};
 
 
-@interface JOFAgentEditViewController ()
-- (void)configureView;
+@interface JOFAgentEditViewController () {
+    ImageStatus imageStatus;
+}
+
+@property (strong, nonatomic) UIImage *agentPicture;
+
 @end
 
 
@@ -21,6 +39,10 @@
 NSArray *assessmentValues;
 NSArray *destroyPowerValues;
 NSArray *motivationValues;
+
+#pragma mark - Constants & Parameters
+
+static const CGFloat pictureSide = 200.0;
 
 #pragma mark - Initialization of the views
 
@@ -35,6 +57,7 @@ NSArray *motivationValues;
     [self initializeAssesmentView];
     [self initializeDestroyPowerViews];
     [self initializeMotivationViews];
+    [self initializePictureView];
 }
 
 
@@ -65,6 +88,19 @@ NSArray *motivationValues;
 
 - (void) initializeMotivationStepper {
     self.motivationStepper.value = [self.agent.motivation doubleValue];
+}
+
+
+- (void) initializePictureView {
+    [self loadAgentPicture];
+    [self displayAgentPicture];
+}
+
+
+- (void)loadAgentPicture {
+    if (self.agent.pictureUUID) {
+        self.agentPicture = [self.imageMapper retrieveImageWithUUID:self.agent.pictureUUID];
+    }
 }
 
 
@@ -101,6 +137,26 @@ NSArray *motivationValues;
 
 #pragma mark - UI actions
 
+- (IBAction) editImage:(id)sender {
+    [self offerImageActions];
+}
+
+
+- (void) offerImageActions {
+    NSString *deleteButtonTitle = nil;
+    if ((imageStatus == ImageStatusPreserveNew) || (self.agent.pictureUUID != nil)) {
+        deleteButtonTitle = @"Delete Image";
+    }
+    UIActionSheet *actionSheet = [[UIActionSheet alloc]
+                                  initWithTitle:nil
+                                  delegate:self
+                                  cancelButtonTitle:@"Cancel"
+                                  destructiveButtonTitle:deleteButtonTitle
+                                  otherButtonTitles:@"Take Photo", @"Choose From Library", nil];
+    [actionSheet showInView:self.navigationController.view];
+}
+
+
 - (IBAction) cancel:(id)sender {
     [self.delegate dismissAgentEditViewController:self modifiedData:NO];
 }
@@ -108,12 +164,26 @@ NSArray *motivationValues;
 
 - (IBAction) save:(id)sender {
     [self assignDataToAgent];
+    [self persistImageChanges];
     [self.delegate dismissAgentEditViewController:self modifiedData:YES];
 }
 
 
 - (void) assignDataToAgent {
     self.agent.name = self.nameTextField.text;
+}
+
+
+- (void) persistImageChanges {
+    if (imageStatus == ImageStatusPreserveNew) {
+        if (self.agent.pictureUUID == nil) {
+            self.agent.pictureUUID = [self.agent generatePictureUUID];
+        }
+        [self.imageMapper storeImage:self.agentPicture withUUID:self.agent.pictureUUID];
+    } else if (imageStatus == ImageStatusDelete) {
+        [self.imageMapper deleteImageWithUUID:self.agent.pictureUUID];
+        self.agent.pictureUUID = nil;
+    }
 }
 
 
@@ -140,7 +210,6 @@ NSArray *motivationValues;
     } else if ([keyPath isEqualToString:@"agent.assessment"]){
         [self displayAssessmentLabel];
     }
-
 }
 
 
@@ -165,6 +234,76 @@ NSArray *motivationValues;
 
 - (void) displayAssessmentLabel {
     self.assessmentLabel.text = [assessmentValues objectAtIndex:[self.agent.assessment unsignedIntegerValue]];
+}
+
+
+- (void) displayAgentPicture {
+    [self.imageButton setImage:self.agentPicture forState:UIControlStateNormal];
+}
+
+
+#pragma mark - Lazy instantiantion for dependency injection
+
+- (JOFImageMapper *) imageMapper {
+    if (_imageMapper == nil) {
+        _imageMapper = [[JOFImageMapper alloc] init];
+    }
+    return _imageMapper;
+}
+
+
+#pragma mark - Action Sheet Delegate Methods
+
+- (void) actionSheet:(UIActionSheet *)actionSheet
+clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == actionSheet.destructiveButtonIndex) {
+        [self deletePicture];
+    } else if (buttonIndex == actionSheet.firstOtherButtonIndex) {
+        [self obtainPictureFromCamera:YES];
+    } else if (buttonIndex == actionSheet.firstOtherButtonIndex + actionSheetLibrary) {
+        [self obtainPictureFromCamera:NO];
+    }
+}
+
+
+- (void) obtainPictureFromCamera:(BOOL)useCamera {
+    UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+    
+    if (useCamera &&
+        [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+    } else {
+        imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    }
+    imagePicker.allowsEditing = YES;
+    imagePicker.delegate = self;
+    
+    [self presentViewController:imagePicker animated:YES completion:nil];
+    
+}
+
+
+- (void) deletePicture {
+    imageStatus = ImageStatusDelete;
+    self.agentPicture = nil;
+    [self displayAgentPicture];
+}
+
+
+#pragma mark - Image picker view controller delegate
+
+- (void) imagePickerController:(UIImagePickerController *)imagePickerController
+ didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    self.agentPicture = [info[UIImagePickerControllerEditedImage] imageSquaredWithSide:pictureSide];
+    // AgentPicture is not observed, because it changes while this controller is hidden.
+    [self displayAgentPicture];
+    imageStatus = ImageStatusPreserveNew;
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 

@@ -12,6 +12,7 @@
 NSString *const agentPropertyDestructionPower = @"destructionPower";
 NSString *const agentPropertyMotivation = @"motivation";
 NSString *const agentPropertyAssessment = @"assessment";
+NSString *const agentPropertyPictureUUID = @"pictureUUID";
 
 
 
@@ -20,12 +21,14 @@ NSString *const agentPropertyAssessment = @"assessment";
 #pragma mark - Model logic
 
 - (NSNumber *) assessment {
-    [self willChangeValueForKey:@"assessment"];
-    NSUInteger destroyPower = [self.destructionPower unsignedIntegerValue];
-    NSUInteger motivation = [self.motivation unsignedIntegerValue];
-    NSUInteger assessment = (destroyPower + motivation) / 2;
-    return @(assessment);
-    [self didChangeValueForKey:@"assessment"];
+    NSNumber *assessmentValue;
+    if ([self primitiveValueForKey:agentPropertyAssessment] == nil) {
+        [self updateAssessmentValue];
+    }
+    [self willAccessValueForKey:agentPropertyAssessment];
+    assessmentValue = [self primitiveValueForKey:agentPropertyAssessment];
+    [self didAccessValueForKey:agentPropertyAssessment];
+    return assessmentValue;
 }
 
 
@@ -44,6 +47,7 @@ NSString *const agentPropertyAssessment = @"assessment";
     [self updateAssessmentValue];
 }
 
+
 - (void) updateAssessmentValue {
     [self willChangeValueForKey:agentPropertyAssessment];
     NSUInteger destroyPower = [self.destructionPower unsignedIntegerValue];
@@ -52,6 +56,17 @@ NSString *const agentPropertyAssessment = @"assessment";
     [self setPrimitiveValue:@(assessment) forKey:agentPropertyAssessment];
     [self didChangeValueForKey:agentPropertyAssessment];
     
+}
+
+#pragma mark - Picture logic
+
+- (NSString *) generatePictureUUID {
+    CFUUIDRef     fileUUID;
+    CFStringRef   fileUUIDString;
+    fileUUID = CFUUIDCreate(kCFAllocatorDefault);
+    fileUUIDString = CFUUIDCreateString(kCFAllocatorDefault, fileUUID);
+    CFRelease(fileUUID);
+    return (__bridge_transfer NSString *)fileUUIDString;
 }
 
 @end

@@ -2,7 +2,7 @@
 //  Agent.h
 //  Malometer
 //
-//  Created by Jorge D. Ortiz Fuentes on 08/06/14.
+//  Created by Jorge D. Ortiz Fuentes on 12/06/14.
 //  Copyright (c) 2014 PoWWaU. All rights reserved.
 //
 
@@ -16,6 +16,6 @@
 @property (nonatomic, retain) NSNumber * destructionPower;
 @property (nonatomic, retain) NSNumber * motivation;
 @property (nonatomic, retain) NSString * name;
-@property (nonatomic, retain) NSString * pictureURL;
+@property (nonatomic, retain) NSString * pictureUUID;
 
 @end

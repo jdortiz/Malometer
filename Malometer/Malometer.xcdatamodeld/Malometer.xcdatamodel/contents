@@ -5,7 +5,7 @@
         <attribute name="destructionPower" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="motivation" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="name" attributeType="String" indexed="YES" syncable="YES"/>
-        <attribute name="pictureURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pictureUUID" optional="YES" attributeType="String" syncable="YES"/>
         <userInfo/>
     </entity>
     <elements>

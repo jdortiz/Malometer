@@ -12,8 +12,10 @@
 extern NSString *const agentPropertyDestructionPower;
 extern NSString *const agentPropertyMotivation;
 extern NSString *const agentPropertyAssessment;
-
+extern NSString *const agentPropertyPictureUUID;
 
 @interface Agent (Model)
+
+- (NSString *) generatePictureUUID;
 
 @end
