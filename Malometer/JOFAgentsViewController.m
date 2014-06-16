@@ -116,8 +116,7 @@ static NSString *const segueEditAgent   = @"EditAgent";
 - (NSFetchedResultsController *) fetchedResultsController {
     if (_fetchedResultsController == nil) {
         [NSFetchedResultsController deleteCacheWithName:@"Agents"];
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K >= %@", agentPropertyDestructionPower, @(2)];;
-        _fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:[Agent fetchAllAgentsByNameWithPredicate:predicate]
+        _fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:[Agent fetchAllAgentsByName]
                                                                         managedObjectContext:self.managedObjectContext
                                                                           sectionNameKeyPath:nil
                                                                                    cacheName:@"Agents"];

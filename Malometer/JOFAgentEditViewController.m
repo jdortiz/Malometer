@@ -6,9 +6,11 @@
 //  Copyright (c) 2014 PoWWaU. All rights reserved.
 //
 
+
 #import "JOFAgentEditViewController.h"
 #import "Agent+Model.h"
-#import "FreakType.h"
+#import "FreakType+Model.h"
+#import "Domain+Model.h"
 #import "UIImage+AgentAdjust.h"
 #import "JOFImageMapper.h"
 
@@ -60,6 +62,7 @@ static const CGFloat pictureSide = 200.0;
     [self initializeMotivationViews];
     [self initializePictureView];
     [self initializeCategoryTextField];
+    [self initializeDomainsTextField];
 }
 
 
@@ -109,14 +112,14 @@ static const CGFloat pictureSide = 200.0;
 - (void) initializeCategoryTextField {
     if (self.agent.category != nil) {
         // if it is read from the data, it exists.
-        [self decorateTextField:self.categoryTextField withContents:@[self.agent.category] values:@[@(YES)]];
+        [self decorateTextField:self.categoryTextField withContents:@[self.agent.category.name] values:@[@(YES)]];
     }
 }
 
 
 - (void) initializeDomainsTextField {
     if ([self.agent.domains count] > 0) {
-        NSArray *contents = [self.agent.domains valueForKey:@"name"];
+        NSArray *contents = [[self.agent.domains valueForKey:@"name"] allObjects];
         NSMutableArray *values = [[NSMutableArray alloc] initWithCapacity:[contents count]];
         for (NSUInteger i = 0; i < [contents count]; i++) {
             [values addObject:@(YES)];
@@ -124,6 +127,7 @@ static const CGFloat pictureSide = 200.0;
         [self decorateTextField:self.domainsTextField withContents:contents values:values];
     }
 }
+
 
 #pragma mark - Things to do while the view controller is shown
 
@@ -192,6 +196,41 @@ static const CGFloat pictureSide = 200.0;
 
 - (void) assignDataToAgent {
     self.agent.name = self.nameTextField.text;
+    [self assignCategory];
+    [self assignDomains];
+}
+
+
+- (void) assignCategory {
+    NSString *categoryName = self.categoryTextField.text;
+    if (categoryName != nil) {
+        FreakType *freakType = [FreakType fetchInMOC:self.agent.managedObjectContext
+                                            withName:categoryName];
+        if (freakType == nil) {
+            freakType = [FreakType freakTypeInMOC:self.agent.managedObjectContext
+                                         withName:categoryName];
+        }
+        self.agent.category= freakType;
+    }
+}
+
+
+- (void) assignDomains {
+    NSString *domainsString = self.domainsTextField.text;
+    if (domainsString != nil) {
+        NSArray *domainNames = [domainsString componentsSeparatedByString:@","];
+        NSMutableSet *domains = [[NSMutableSet alloc] initWithCapacity:[domainNames count]];
+        Domain *domain;
+        for (NSString *domainName in domainNames) {
+            domain = [Domain fetchInMOC:self.agent.managedObjectContext
+                               withName:domainName];
+            if (domain == nil) {
+                domain = [Domain domainInMOC:self.agent.managedObjectContext withName:domainName];
+            }
+            [domains addObject:domain];
+        }
+        self.agent.domains = domains;
+    }
 }
 
 
@@ -358,14 +397,16 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
     BOOL exists = YES;
     if (textField == self.categoryTextField) {
         NSString *category = self.categoryTextField.text;
-//        exists = [FreakType existsWithName:category];
+        exists = ([FreakType fetchInMOC:self.agent.managedObjectContext
+                               withName:category] != nil);
         [self decorateTextField:textField withContents:@[category] values:@[@(exists)]];
     } else if (textField == self.domainsTextField) {
         NSString *domainsString = self.domainsTextField.text;
         NSArray *domains = [domainsString componentsSeparatedByString:@","];
         NSMutableArray *values = [[NSMutableArray alloc] initWithCapacity:[domains count]];
         for (NSString *domain in domains) {
-//            exists = [Domain existsWithName:domain];
+            exists = ([Domain fetchInMOC:self.agent.managedObjectContext
+                                   withName:domain] != nil);
             [values addObject:@(exists)];
             if (domain !=nil) exists = !exists;
         }
