@@ -10,6 +10,9 @@
 		CF0375F71949D9FE00D50843 /* UIImage+AgentAdjust.m in Sources */ = {isa = PBXBuildFile; fileRef = CF0375F61949D9FE00D50843 /* UIImage+AgentAdjust.m */; };
 		CF148BCD194480DE00CA094C /* Agent+Model.m in Sources */ = {isa = PBXBuildFile; fileRef = CF148BCC194480DE00CA094C /* Agent+Model.m */; };
 		CF1EF2EB1949FF7B009D2E99 /* JOFImageMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1EF2EA1949FF7B009D2E99 /* JOFImageMapper.m */; };
+		CF2210F9194EE35D000B30A9 /* Domain.m in Sources */ = {isa = PBXBuildFile; fileRef = CF2210F8194EE35D000B30A9 /* Domain.m */; };
+		CF2210FC194EE35F000B30A9 /* Agent.m in Sources */ = {isa = PBXBuildFile; fileRef = CF2210FB194EE35F000B30A9 /* Agent.m */; };
+		CF2210FF194EE35F000B30A9 /* FreakType.m in Sources */ = {isa = PBXBuildFile; fileRef = CF2210FE194EE35F000B30A9 /* FreakType.m */; };
 		CF2744D8193BDE160057C795 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF2744D7193BDE160057C795 /* Foundation.framework */; };
 		CF2744DA193BDE160057C795 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF2744D9193BDE160057C795 /* CoreGraphics.framework */; };
 		CF2744DC193BDE160057C795 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF2744DB193BDE160057C795 /* UIKit.framework */; };
@@ -28,9 +31,6 @@
 		CF274502193BDE160057C795 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF2744DD193BDE160057C795 /* CoreData.framework */; };
 		CF27450A193BDE160057C795 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CF274508193BDE160057C795 /* InfoPlist.strings */; };
 		CF27450C193BDE160057C795 /* MalometerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CF27450B193BDE160057C795 /* MalometerTests.m */; };
-		CFB9BAAB194C7CF500A8E574 /* FreakType.m in Sources */ = {isa = PBXBuildFile; fileRef = CFB9BAAA194C7CF500A8E574 /* FreakType.m */; };
-		CFB9BAAE194C7CF600A8E574 /* Domain.m in Sources */ = {isa = PBXBuildFile; fileRef = CFB9BAAD194C7CF600A8E574 /* Domain.m */; };
-		CFB9BAB1194C7CF600A8E574 /* Agent.m in Sources */ = {isa = PBXBuildFile; fileRef = CFB9BAB0194C7CF600A8E574 /* Agent.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +50,12 @@
 		CF148BCC194480DE00CA094C /* Agent+Model.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Agent+Model.m"; sourceTree = "<group>"; };
 		CF1EF2E91949FF7B009D2E99 /* JOFImageMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JOFImageMapper.h; sourceTree = "<group>"; };
 		CF1EF2EA1949FF7B009D2E99 /* JOFImageMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JOFImageMapper.m; sourceTree = "<group>"; };
+		CF2210F7194EE35D000B30A9 /* Domain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Domain.h; sourceTree = "<group>"; };
+		CF2210F8194EE35D000B30A9 /* Domain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Domain.m; sourceTree = "<group>"; };
+		CF2210FA194EE35F000B30A9 /* Agent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Agent.h; sourceTree = "<group>"; };
+		CF2210FB194EE35F000B30A9 /* Agent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Agent.m; sourceTree = "<group>"; };
+		CF2210FD194EE35F000B30A9 /* FreakType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FreakType.h; sourceTree = "<group>"; };
+		CF2210FE194EE35F000B30A9 /* FreakType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FreakType.m; sourceTree = "<group>"; };
 		CF2744D4193BDE160057C795 /* Malometer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Malometer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF2744D7193BDE160057C795 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CF2744D9193BDE160057C795 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -74,12 +80,6 @@
 		CF274509193BDE160057C795 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CF27450B193BDE160057C795 /* MalometerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MalometerTests.m; sourceTree = "<group>"; };
 		CF4FE4F1193C5C3700E77955 /* JOFAgentEditViewControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JOFAgentEditViewControllerDelegate.h; sourceTree = "<group>"; };
-		CFB9BAA9194C7CF500A8E574 /* FreakType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FreakType.h; sourceTree = "<group>"; };
-		CFB9BAAA194C7CF500A8E574 /* FreakType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FreakType.m; sourceTree = "<group>"; };
-		CFB9BAAC194C7CF600A8E574 /* Domain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Domain.h; sourceTree = "<group>"; };
-		CFB9BAAD194C7CF600A8E574 /* Domain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Domain.m; sourceTree = "<group>"; };
-		CFB9BAAF194C7CF600A8E574 /* Agent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Agent.h; sourceTree = "<group>"; };
-		CFB9BAB0194C7CF600A8E574 /* Agent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Agent.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,13 +122,13 @@
 		CF10A5D7194A0FAA008DE59E /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				CF2210FD194EE35F000B30A9 /* FreakType.h */,
+				CF2210FE194EE35F000B30A9 /* FreakType.m */,
+				CF2210FA194EE35F000B30A9 /* Agent.h */,
+				CF2210FB194EE35F000B30A9 /* Agent.m */,
+				CF2210F7194EE35D000B30A9 /* Domain.h */,
+				CF2210F8194EE35D000B30A9 /* Domain.m */,
 				CF2744EE193BDE160057C795 /* Malometer.xcdatamodeld */,
-				CFB9BAAF194C7CF600A8E574 /* Agent.h */,
-				CFB9BAB0194C7CF600A8E574 /* Agent.m */,
-				CFB9BAAC194C7CF600A8E574 /* Domain.h */,
-				CFB9BAAD194C7CF600A8E574 /* Domain.m */,
-				CFB9BAA9194C7CF500A8E574 /* FreakType.h */,
-				CFB9BAAA194C7CF500A8E574 /* FreakType.m */,
 				CF148BCB194480DE00CA094C /* Agent+Model.h */,
 				CF148BCC194480DE00CA094C /* Agent+Model.m */,
 			);
@@ -336,14 +336,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CFB9BAAB194C7CF500A8E574 /* FreakType.m in Sources */,
-				CFB9BAAE194C7CF600A8E574 /* Domain.m in Sources */,
 				CF2744EA193BDE160057C795 /* JOFAppDelegate.m in Sources */,
 				CF2744E6193BDE160057C795 /* main.m in Sources */,
 				CF148BCD194480DE00CA094C /* Agent+Model.m in Sources */,
-				CFB9BAB1194C7CF600A8E574 /* Agent.m in Sources */,
+				CF2210F9194EE35D000B30A9 /* Domain.m in Sources */,
+				CF2210FC194EE35F000B30A9 /* Agent.m in Sources */,
 				CF2744F3193BDE160057C795 /* JOFAgentsViewController.m in Sources */,
 				CF2744F0193BDE160057C795 /* Malometer.xcdatamodeld in Sources */,
+				CF2210FF194EE35F000B30A9 /* FreakType.m in Sources */,
 				CF1EF2EB1949FF7B009D2E99 /* JOFImageMapper.m in Sources */,
 				CF0375F71949D9FE00D50843 /* UIImage+AgentAdjust.m in Sources */,
 				CF2744F6193BDE160057C795 /* JOFAgentEditViewController.m in Sources */,

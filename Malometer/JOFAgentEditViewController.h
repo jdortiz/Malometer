@@ -26,5 +26,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *destroyPowerLabel;
 @property (weak, nonatomic) IBOutlet UIStepper *motivationStepper;
 @property (weak, nonatomic) IBOutlet UILabel *motivationLabel;
+@property (weak, nonatomic) IBOutlet UITextField *categoryTextField;
+@property (weak, nonatomic) IBOutlet UITextField *domainsTextField;
 
 @end
