@@ -14,5 +14,6 @@
 
 + (instancetype) domainInMOC:(NSManagedObjectContext *)moc withName:(NSString *)name;
 + (Domain *) fetchInMOC:(NSManagedObjectContext *)moc withName:(NSString *)name;
++ (NSFetchRequest *) fetchRequestControlledDomains;
 
 @end

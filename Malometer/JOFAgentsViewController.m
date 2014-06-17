@@ -9,6 +9,7 @@
 #import "JOFAgentsViewController.h"
 #import "JOFAgentEditViewController.h"
 #import "Agent+Model.h"
+#import "Domain+Model.h"
 
 
 @interface JOFAgentsViewController ()
@@ -31,6 +32,17 @@ static NSString *const segueEditAgent   = @"EditAgent";
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
 //    self.navigationItem.leftBarButtonItem = self.editButtonItem;
+    [self displayControlledDomainsInTitle];
+}
+
+
+#pragma mark - Display information
+
+- (void) displayControlledDomainsInTitle {
+    NSError *error;
+    NSUInteger controlledDomains = [self.managedObjectContext countForFetchRequest:[Domain fetchRequestControlledDomains]
+                                                                             error:&error];
+    self.title = [NSString stringWithFormat:@"Controlled domains: %d", controlledDomains];
 }
 
 
@@ -59,6 +71,14 @@ static NSString *const segueEditAgent   = @"EditAgent";
     // Return NO if you do not want the specified item to be editable.
     return YES;
 }
+
+
+- (NSString *) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    NSString *categoryName = [[[self.fetchedResultsController sections] objectAtIndex:section] name];
+    NSNumber *dpAvg = [[[[self.fetchedResultsController sections] objectAtIndex:section] objects] valueForKeyPath:@"@avg.destructionPower"];
+    return [NSString stringWithFormat:@"%@ (%@)", categoryName, dpAvg];
+}
+
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -116,9 +136,12 @@ static NSString *const segueEditAgent   = @"EditAgent";
 - (NSFetchedResultsController *) fetchedResultsController {
     if (_fetchedResultsController == nil) {
         [NSFetchedResultsController deleteCacheWithName:@"Agents"];
-        _fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:[Agent fetchAllAgentsByName]
+        NSSortDescriptor *categoryNameSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"category.name" ascending:YES];
+        NSSortDescriptor *destPowSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:agentPropertyDestructionPower ascending:NO];
+        NSSortDescriptor *nameSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:agentPropertyName ascending:YES];
+        _fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:[Agent fetchAllAgentsWithSortDescriptors:@[categoryNameSortDescriptor, destPowSortDescriptor, nameSortDescriptor]]
                                                                         managedObjectContext:self.managedObjectContext
-                                                                          sectionNameKeyPath:nil
+                                                                          sectionNameKeyPath:@"category.name"
                                                                                    cacheName:@"Agents"];
         _fetchedResultsController.delegate = self;
 
@@ -179,20 +202,11 @@ static NSString *const segueEditAgent   = @"EditAgent";
     }
 }
 
-- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
-{
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
     [self.tableView endUpdates];
+    [self displayControlledDomainsInTitle];
 }
 
-/*
-// Implementing the above methods to update the table view in response to individual changes may have performance implications if a large number of changes are made simultaneously. If this proves to be an issue, you can instead just implement controllerDidChangeContent: which notifies the delegate that all section and object changes have been processed. 
- 
- - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
-{
-    // In the simplest, most efficient, case, reload the table view.
-    [self.tableView reloadData];
-}
- */
 
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
