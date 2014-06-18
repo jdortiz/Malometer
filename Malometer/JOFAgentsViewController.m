@@ -8,7 +8,8 @@
 
 #import "JOFAgentsViewController.h"
 #import "JOFAgentEditViewController.h"
-#import "Agent.h"
+#import "Agent+Model.h"
+#import "Domain+Model.h"
 
 
 @interface JOFAgentsViewController ()
@@ -31,6 +32,17 @@ static NSString *const segueEditAgent   = @"EditAgent";
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
 //    self.navigationItem.leftBarButtonItem = self.editButtonItem;
+    [self displayControlledDomainsInTitle];
+}
+
+
+#pragma mark - Display information
+
+- (void) displayControlledDomainsInTitle {
+    NSError *error;
+    NSUInteger controlledDomains = [self.managedObjectContext countForFetchRequest:[Domain fetchRequestControlledDomains]
+                                                                             error:&error];
+    self.title = [NSString stringWithFormat:@"Controlled domains: %d", controlledDomains];
 }
 
 
@@ -59,6 +71,14 @@ static NSString *const segueEditAgent   = @"EditAgent";
     // Return NO if you do not want the specified item to be editable.
     return YES;
 }
+
+
+- (NSString *) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    NSString *categoryName = [[[self.fetchedResultsController sections] objectAtIndex:section] name];
+    NSNumber *dpAvg = [[[[self.fetchedResultsController sections] objectAtIndex:section] objects] valueForKeyPath:@"@avg.destructionPower"];
+    return [NSString stringWithFormat:@"%@ (%@)", categoryName, dpAvg];
+}
+
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -113,42 +133,29 @@ static NSString *const segueEditAgent   = @"EditAgent";
 
 #pragma mark - Fetched results controller
 
-- (NSFetchedResultsController *)fetchedResultsController
-{
-    if (_fetchedResultsController != nil) {
-        return _fetchedResultsController;
+- (NSFetchedResultsController *) fetchedResultsController {
+    if (_fetchedResultsController == nil) {
+        [NSFetchedResultsController deleteCacheWithName:@"Agents"];
+        NSSortDescriptor *categoryNameSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"category.name" ascending:YES];
+        NSSortDescriptor *destPowSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:agentPropertyDestructionPower ascending:NO];
+        NSSortDescriptor *nameSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:agentPropertyName ascending:YES];
+        _fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:[Agent fetchAllAgentsWithSortDescriptors:@[categoryNameSortDescriptor, destPowSortDescriptor, nameSortDescriptor]]
+                                                                        managedObjectContext:self.managedObjectContext
+                                                                          sectionNameKeyPath:@"category.name"
+                                                                                   cacheName:@"Agents"];
+        _fetchedResultsController.delegate = self;
+
+        NSError *error = nil;
+        if (![self.fetchedResultsController performFetch:&error]) {
+            // Replace this implementation with code to handle the error appropriately.
+            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+            abort();
+        }
     }
-    
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    // Edit the entity name as appropriate.
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Agent" inManagedObjectContext:self.managedObjectContext];
-    [fetchRequest setEntity:entity];
-    
-    // Set the batch size to a suitable number.
-    [fetchRequest setFetchBatchSize:20];
-    
-    // Edit the sort key as appropriate.
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:NO];
-    NSArray *sortDescriptors = @[sortDescriptor];
-    
-    [fetchRequest setSortDescriptors:sortDescriptors];
-    
-    // Edit the section name key path and cache name if appropriate.
-    // nil for section name key path means "no sections".
-    NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:@"Master"];
-    aFetchedResultsController.delegate = self;
-    self.fetchedResultsController = aFetchedResultsController;
-    
-	NSError *error = nil;
-	if (![self.fetchedResultsController performFetch:&error]) {
-	     // Replace this implementation with code to handle the error appropriately.
-	     // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. 
-	    NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-	    abort();
-	}
-    
     return _fetchedResultsController;
 }    
+
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
 {
@@ -195,20 +202,11 @@ static NSString *const segueEditAgent   = @"EditAgent";
     }
 }
 
-- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
-{
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
     [self.tableView endUpdates];
+    [self displayControlledDomainsInTitle];
 }
 
-/*
-// Implementing the above methods to update the table view in response to individual changes may have performance implications if a large number of changes are made simultaneously. If this proves to be an issue, you can instead just implement controllerDidChangeContent: which notifies the delegate that all section and object changes have been processed. 
- 
- - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
-{
-    // In the simplest, most efficient, case, reload the table view.
-    [self.tableView reloadData];
-}
- */
 
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {

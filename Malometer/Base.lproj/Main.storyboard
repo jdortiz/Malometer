@@ -80,7 +80,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="nL5-eV-pU4">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="nL5-eV-pU4">
                                 <rect key="frame" x="20" y="184" width="280" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -145,6 +145,24 @@
                                     <action selector="editImage:" destination="Ah7-4n-0Wa" eventType="touchUpInside" id="XIZ-3Z-966"/>
                                 </connections>
                             </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Category" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="de1-J0-II8">
+                                <rect key="frame" x="128" y="76" width="178" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <connections>
+                                    <outlet property="delegate" destination="Ah7-4n-0Wa" id="vKK-SY-we0"/>
+                                </connections>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Domains" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wLI-Ng-3N6">
+                                <rect key="frame" x="128" y="114" width="178" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="Ah7-4n-0Wa" id="5Fu-Ss-c8f"/>
+                                </connections>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -162,8 +180,10 @@
                     </navigationItem>
                     <connections>
                         <outlet property="assessmentLabel" destination="bc5-ZC-kYs" id="4DP-AX-Skw"/>
+                        <outlet property="categoryTextField" destination="de1-J0-II8" id="Miy-tp-CfD"/>
                         <outlet property="destroyPowerLabel" destination="6dJ-LA-LTU" id="eQ9-xA-eYb"/>
                         <outlet property="destroyPowerStepper" destination="6VR-tv-S0E" id="wgT-gk-CbW"/>
+                        <outlet property="domainsTextField" destination="wLI-Ng-3N6" id="MHk-A8-bMq"/>
                         <outlet property="imageButton" destination="xhh-VQ-ON8" id="HoD-rW-yFT"/>
                         <outlet property="motivationLabel" destination="uFX-hW-817" id="8q7-Jt-Kwg"/>
                         <outlet property="motivationStepper" destination="CgA-eX-PUQ" id="wpL-oQ-ME7"/>

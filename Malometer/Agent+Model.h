@@ -9,6 +9,7 @@
 #import "Agent.h"
 
 // Strings of the attributes/properties
+extern NSString *const agentPropertyName;
 extern NSString *const agentPropertyDestructionPower;
 extern NSString *const agentPropertyMotivation;
 extern NSString *const agentPropertyAssessment;
@@ -16,6 +17,9 @@ extern NSString *const agentPropertyPictureUUID;
 
 @interface Agent (Model)
 
++ (NSFetchRequest *) fetchAllAgentsByName;
++ (NSFetchRequest *) fetchAllAgentsWithSortDescriptors:(NSArray *)sortDescriptors;
++ (NSFetchRequest *) fetchAllAgentsByNameWithPredicate:(NSPredicate *)predicate;
 - (NSString *) generatePictureUUID;
 
 @end
