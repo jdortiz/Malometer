@@ -32,7 +32,9 @@
 		CF274501193BDE160057C795 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF2744DB193BDE160057C795 /* UIKit.framework */; };
 		CF274502193BDE160057C795 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF2744DD193BDE160057C795 /* CoreData.framework */; };
 		CF27450A193BDE160057C795 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CF274508193BDE160057C795 /* InfoPlist.strings */; };
-		CF27450C193BDE160057C795 /* MalometerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CF27450B193BDE160057C795 /* MalometerTests.m */; };
+		CF622143195C93AC002A6402 /* JOFAppDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CF622142195C93AC002A6402 /* JOFAppDelegateTests.m */; };
+		CFB42E8F195CCB6100BB3A4E /* AgentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CFB42E8E195CCB6100BB3A4E /* AgentTests.m */; };
+		CFB42E90195CCC7200BB3A4E /* Malometer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CF2744EE193BDE160057C795 /* Malometer.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,8 +86,9 @@
 		CF2744FE193BDE160057C795 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		CF274507193BDE160057C795 /* MalometerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MalometerTests-Info.plist"; sourceTree = "<group>"; };
 		CF274509193BDE160057C795 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		CF27450B193BDE160057C795 /* MalometerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MalometerTests.m; sourceTree = "<group>"; };
 		CF4FE4F1193C5C3700E77955 /* JOFAgentEditViewControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JOFAgentEditViewControllerDelegate.h; sourceTree = "<group>"; };
+		CF622142195C93AC002A6402 /* JOFAppDelegateTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JOFAppDelegateTests.m; sourceTree = "<group>"; };
+		CFB42E8E195CCB6100BB3A4E /* AgentTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AgentTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -233,8 +236,9 @@
 		CF274505193BDE160057C795 /* MalometerTests */ = {
 			isa = PBXGroup;
 			children = (
-				CF27450B193BDE160057C795 /* MalometerTests.m */,
+				CFB42E8D195CCB0C00BB3A4E /* Model */,
 				CF274506193BDE160057C795 /* Supporting Files */,
+				CF622142195C93AC002A6402 /* JOFAppDelegateTests.m */,
 			);
 			path = MalometerTests;
 			sourceTree = "<group>";
@@ -246,6 +250,14 @@
 				CF274508193BDE160057C795 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		CFB42E8D195CCB0C00BB3A4E /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				CFB42E8E195CCB6100BB3A4E /* AgentTests.m */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -366,7 +378,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CF27450C193BDE160057C795 /* MalometerTests.m in Sources */,
+				CF622143195C93AC002A6402 /* JOFAppDelegateTests.m in Sources */,
+				CFB42E8F195CCB6100BB3A4E /* AgentTests.m in Sources */,
+				CFB42E90195CCC7200BB3A4E /* Malometer.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
