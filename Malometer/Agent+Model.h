@@ -8,6 +8,7 @@
 
 #import "Agent.h"
 
+extern NSString *const agentEntityName;
 // Strings of the attributes/properties
 extern NSString *const agentPropertyName;
 extern NSString *const agentPropertyDestructionPower;
