@@ -35,6 +35,8 @@
 		CF96385A19605F0900D330BE /* Power.m in Sources */ = {isa = PBXBuildFile; fileRef = CF96385919605F0900D330BE /* Power.m */; };
 		CF96386019605F2C00D330BE /* Power+Model.m in Sources */ = {isa = PBXBuildFile; fileRef = CF96385F19605F2C00D330BE /* Power+Model.m */; };
 		CF963866196061B800D330BE /* Agent.m in Sources */ = {isa = PBXBuildFile; fileRef = CF963865196061B800D330BE /* Agent.m */; };
+		CF963868196062CB00D330BE /* Map1To2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = CF963867196062CB00D330BE /* Map1To2.xcmappingmodel */; };
+		CF96386B1960636100D330BE /* JOFAgentToAgentMigrationPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = CF96386A1960636100D330BE /* JOFAgentToAgentMigrationPolicy.m */; };
 		CFB42E8F195CCB6100BB3A4E /* AgentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CFB42E8E195CCB6100BB3A4E /* AgentTests.m */; };
 		CFB42E90195CCC7200BB3A4E /* Malometer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CF2744EE193BDE160057C795 /* Malometer.xcdatamodeld */; };
 /* End PBXBuildFile section */
@@ -96,6 +98,9 @@
 		CF96385F19605F2C00D330BE /* Power+Model.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Power+Model.m"; sourceTree = "<group>"; };
 		CF963864196061B800D330BE /* Agent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Agent.h; sourceTree = "<group>"; };
 		CF963865196061B800D330BE /* Agent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Agent.m; sourceTree = "<group>"; };
+		CF963867196062CB00D330BE /* Map1To2.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = Map1To2.xcmappingmodel; sourceTree = "<group>"; };
+		CF9638691960636100D330BE /* JOFAgentToAgentMigrationPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JOFAgentToAgentMigrationPolicy.h; sourceTree = "<group>"; };
+		CF96386A1960636100D330BE /* JOFAgentToAgentMigrationPolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JOFAgentToAgentMigrationPolicy.m; sourceTree = "<group>"; };
 		CFB42E8E195CCB6100BB3A4E /* AgentTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AgentTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -156,6 +161,9 @@
 				CF96385E19605F2C00D330BE /* Power+Model.h */,
 				CF96385F19605F2C00D330BE /* Power+Model.m */,
 				CF2744EE193BDE160057C795 /* Malometer.xcdatamodeld */,
+				CF963867196062CB00D330BE /* Map1To2.xcmappingmodel */,
+				CF9638691960636100D330BE /* JOFAgentToAgentMigrationPolicy.h */,
+				CF96386A1960636100D330BE /* JOFAgentToAgentMigrationPolicy.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -370,7 +378,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF963868196062CB00D330BE /* Map1To2.xcmappingmodel in Sources */,
 				CF2744EA193BDE160057C795 /* JOFAppDelegate.m in Sources */,
+				CF96386B1960636100D330BE /* JOFAgentToAgentMigrationPolicy.m in Sources */,
 				CF96386019605F2C00D330BE /* Power+Model.m in Sources */,
 				CF2744E6193BDE160057C795 /* main.m in Sources */,
 				CF963866196061B800D330BE /* Agent.m in Sources */,
@@ -612,7 +622,7 @@
 				CF96385719605DD500D330BE /* Malometer2.xcdatamodel */,
 				CF2744EF193BDE160057C795 /* Malometer.xcdatamodel */,
 			);
-			currentVersion = CF2B2FCB196003C7009ECF91 /* Malometer 1.1.0.xcdatamodel */;
+			currentVersion = CF96385719605DD500D330BE /* Malometer2.xcdatamodel */;
 			path = Malometer.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

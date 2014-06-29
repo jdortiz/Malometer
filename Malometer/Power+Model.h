@@ -9,6 +9,8 @@
 
 #import "Power.h"
 
+extern NSString *const powerEntityName;
+
 
 @interface Power (Model)
 
