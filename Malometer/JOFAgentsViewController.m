@@ -110,7 +110,9 @@ static NSString *const segueEditAgent   = @"EditAgent";
         [self prepareAgentEditViewController:agentEditVC withAgent:nil];
     } else if ([[segue identifier] isEqualToString:segueEditAgent]) {
         JOFAgentEditViewController *agentEditVC = (JOFAgentEditViewController *)[segue.destinationViewController topViewController];
-        Agent *agent = [self.fetchedResultsController objectAtIndexPath:[self.tableView indexPathForSelectedRow]];
+        NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
+        Agent *agent = [self.fetchedResultsController objectAtIndexPath:selectedIndexPath];
+        agent.power = (selectedIndexPath.row % 2 == 0)? @"Intelligence": @"Strength";
         [self prepareAgentEditViewController:agentEditVC withAgent:agent];
     }
 }
