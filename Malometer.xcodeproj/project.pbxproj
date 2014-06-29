@@ -86,6 +86,7 @@
 		CF2744FE193BDE160057C795 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		CF274507193BDE160057C795 /* MalometerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MalometerTests-Info.plist"; sourceTree = "<group>"; };
 		CF274509193BDE160057C795 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		CF2B2FCB196003C7009ECF91 /* Malometer 1.1.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Malometer 1.1.0.xcdatamodel"; sourceTree = "<group>"; };
 		CF4FE4F1193C5C3700E77955 /* JOFAgentEditViewControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JOFAgentEditViewControllerDelegate.h; sourceTree = "<group>"; };
 		CF622142195C93AC002A6402 /* JOFAppDelegateTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JOFAppDelegateTests.m; sourceTree = "<group>"; };
 		CFB42E8E195CCB6100BB3A4E /* AgentTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AgentTests.m; sourceTree = "<group>"; };
@@ -594,9 +595,10 @@
 		CF2744EE193BDE160057C795 /* Malometer.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				CF2B2FCB196003C7009ECF91 /* Malometer 1.1.0.xcdatamodel */,
 				CF2744EF193BDE160057C795 /* Malometer.xcdatamodel */,
 			);
-			currentVersion = CF2744EF193BDE160057C795 /* Malometer.xcdatamodel */;
+			currentVersion = CF2B2FCB196003C7009ECF91 /* Malometer 1.1.0.xcdatamodel */;
 			path = Malometer.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
