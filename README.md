@@ -590,8 +590,8 @@ Create a method in the app delegate that simulates loading 10.000
 registers taking 5 seconds to complete.
 
 1. Add a convenience constructor for the Agent with a given name.
-2. In the fake importer:
-   1. Create a category with the convenience constructor.
+2. Define a fake importer method in the app delegate that does:
+   1. Create a category with its convenience constructor (any name).
    2. Create 10.000 registers with different names using the
       convenience constructor.
    3. Relate the object and the category.
@@ -602,24 +602,18 @@ registers taking 5 seconds to complete.
    anything else.
 4. Run the program and see what happens.
 5. Remove the database from the application directory.
-Comments about:
-- The interface is black for more than 10 secs. The watchdog will
-  kill this app.
-- The new elements are shown.
 
 ### Plan the task for a better moment (10 min) ###
 
 Plan the  task asynchornously in the same context / main thread.
 
-1. Change the importer method so all the action happens inside of a
+1. Change the creation of the managed object context so it is created
+   with a concurrency type of main queue.
+2. Change the importer method so all the action happens inside of a
    block that is passed for asynchronous execution to the MOC.
-2. Remember to weakfy and strongfy self.
-3. Run the application an see if anything changes.
-4. Remove the database from the application directory.
-Comments about:
-- The interface now appears, but freezes immediatelly. The block has
-  been scheduled for when there is an slot in the main queue.
-- The new elements are shown.
+3. Remember to weakfy and strongfy self.
+4. Run the application an see if anything changes.
+5. Remove the database from the application directory.
 
 ### Make a better importer (5 min) ###
 

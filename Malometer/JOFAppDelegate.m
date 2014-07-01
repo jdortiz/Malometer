@@ -72,15 +72,19 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 #pragma mark - Core Data operations
 
 - (void) importData {
-    for (NSUInteger i = 0; i < importedObjectCount; i++) {
-        FreakType *freakType = [FreakType freakTypeInMOC:self.managedObjectContext
-                                                withName:@"Monster"];
-        Agent *agent = [Agent agentInMOC:self.managedObjectContext
-                                withName:[NSString stringWithFormat:@"Agent %u",i]];
-        agent.category = freakType;
-        usleep(5000000/importedObjectCount);
-    }
-    [self.managedObjectContext save:NULL];
+    __weak typeof(self)weakSelf = self;
+    [self.managedObjectContext performBlock:^{
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
+        for (NSUInteger i = 0; i < importedObjectCount; i++) {
+            FreakType *freakType = [FreakType freakTypeInMOC:strongSelf.managedObjectContext
+                                                    withName:@"Monster"];
+            Agent *agent = [Agent agentInMOC:strongSelf.managedObjectContext
+                                    withName:[NSString stringWithFormat:@"Agent %u",i]];
+            agent.category = freakType;
+            usleep(5000000/importedObjectCount);
+        }
+        [strongSelf.managedObjectContext save:NULL];
+    }];
 }
 
 - (void) saveContext {
@@ -101,19 +105,16 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
 // Returns the managed object context for the application.
 // If the context doesn't already exist, it is created and bound to the persistent store coordinator for the application.
-- (NSManagedObjectContext *)managedObjectContext
-{
-    if (_managedObjectContext != nil) {
-        return _managedObjectContext;
-    }
-    
-    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
-    if (coordinator != nil) {
-        _managedObjectContext = [[NSManagedObjectContext alloc] init];
-        [_managedObjectContext setPersistentStoreCoordinator:coordinator];
-        
-        [self prepareUndoManagerForContext:_managedObjectContext];
-        
+- (NSManagedObjectContext *) managedObjectContext {
+    if (_managedObjectContext == nil) {
+        NSPersistentStoreCoordinator *coordinator = self.persistentStoreCoordinator;
+        if (coordinator != nil) {
+            _managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+            _managedObjectContext.persistentStoreCoordinator = coordinator;
+            
+            [self prepareUndoManagerForContext:_managedObjectContext];
+            
+        }
     }
     return _managedObjectContext;
 }
