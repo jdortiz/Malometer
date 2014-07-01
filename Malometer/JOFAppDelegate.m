@@ -9,6 +9,8 @@
 
 #import "JOFAppDelegate.h"
 #import "JOFAgentsViewController.h"
+#import "FreakType+Model.h"
+#import "Agent+Model.h"
 
 
 @implementation JOFAppDelegate
@@ -17,15 +19,28 @@
 @synthesize managedObjectModel = _managedObjectModel;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
-    // Override point for customization after application launch.
+#pragma mark - Constants & Parameters
+
+static NSUInteger importedObjectCount = 10000;
+
+
+#pragma mark - Application lifecycle
+
+- (BOOL) application:(UIApplication *)application
+didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [self importData];
+    [self prepareRootViewController];
+    return YES;
+}
+
+
+- (void) prepareRootViewController {
     UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
     JOFAgentsViewController *controller = (JOFAgentsViewController *)navigationController.topViewController;
     controller.managedObjectContext = self.managedObjectContext;
-    return YES;
 }
-							
+
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -54,8 +69,21 @@
     [self saveContext];
 }
 
-- (void)saveContext
-{
+#pragma mark - Core Data operations
+
+- (void) importData {
+    for (NSUInteger i = 0; i < importedObjectCount; i++) {
+        FreakType *freakType = [FreakType freakTypeInMOC:self.managedObjectContext
+                                                withName:@"Monster"];
+        Agent *agent = [Agent agentInMOC:self.managedObjectContext
+                                withName:[NSString stringWithFormat:@"Agent %u",i]];
+        agent.category = freakType;
+        usleep(5000000/importedObjectCount);
+    }
+    [self.managedObjectContext save:NULL];
+}
+
+- (void) saveContext {
     NSError *error = nil;
     NSManagedObjectContext *managedObjectContext = self.managedObjectContext;
     if (managedObjectContext != nil) {
@@ -67,6 +95,7 @@
         } 
     }
 }
+
 
 #pragma mark - Core Data stack
 
