@@ -18,6 +18,7 @@ extern NSString *const agentPropertyPictureUUID;
 
 @interface Agent (Model)
 
++ (instancetype) agentInMOC:(NSManagedObjectContext *)moc withName:(NSString *)name;
 + (NSFetchRequest *) fetchAllAgentsByName;
 + (NSFetchRequest *) fetchAllAgentsWithSortDescriptors:(NSArray *)sortDescriptors;
 + (NSFetchRequest *) fetchAllAgentsByNameWithPredicate:(NSPredicate *)predicate;

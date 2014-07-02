@@ -578,3 +578,85 @@ powers into the new entities, without duplicating them.
 8. Run and check with the debugger that the relationships exists. For
    any object that had a power in the previous dataset,
     po [[agent.powers anyObject] name]
+
+## Core Data Concurrency
+
+We are going to import 10.000 agents everytime the application
+runs. This will happen in the app delegate.
+
+### Create a fake importer (15 min) ###
+
+Create a method in the app delegate that simulates loading 10.000
+registers taking 5 seconds to complete.
+
+1. Add a convenience constructor for the Agent with a given name.
+2. Define a fake importer method in the app delegate that does:
+   1. Create a category with its convenience constructor (any name).
+   2. Create 10.000 registers with different names using the
+      convenience constructor.
+   3. Relate the object and the category.
+   4. Wait using usleep after each agent creation, so the total time
+      is aprox. 5 secs.
+   5. When all the objects have been created, save the changes.
+3. Invoke the method when the app has just finished launching, before
+   anything else.
+4. Run the program and see what happens.
+5. Remove the database from the application directory.
+
+### Plan the task for a better moment (10 min) ###
+
+Plan the  task asynchornously in the same context / main thread.
+
+1. Change the creation of the managed object context so it is created
+   with a concurrency type of main queue.
+2. Change the importer method so all the action happens inside of a
+   block that is passed for asynchronous execution to the MOC.
+3. Remember to weakfy and strongfy self.
+4. Run the application an see if anything changes.
+5. Remove the database from the application directory.
+
+### Make a better importer (5 min) ###
+
+Prepare the method to change the MOC.
+
+1. Change the importer method so it takes a managed object context as
+   parameter.
+2. Use the parameter instead of the property in all the required
+   places.
+Comment:
+- It should be easier than the previous versions and less leaks.
+
+### Create an independent background context (15 min) ###
+
+Have a different context to perform the time consuming process in a
+background queue. The database must be empty at the beginning of this
+section. It is necessary to add some logic to make the main context
+know about the changes.
+
+1. Define another property for the backgroundMOC.
+2. Write a lazy instantiation method for this property that creates
+   this context with concurrency type private queue.
+3. Remember to set the persistent coordinator of this context to the
+   existing one.
+4. Change the context used as parameter for the importer method to
+   the background one.
+6. Run the app and wait for 15 seconds. Why doesn't it appear?
+7. Use =sqlite3= to query the database to check if the data has been
+   imported in saved.
+8. Stop the app and delete the database.
+
+### Making the main context aware of the changes in the other (10 min) ###
+
+Receive the notifications produced by the background context when
+it saves the changes to merge them.
+
+1. Right after the application ends launcing, register to attend to
+   the NSManagedObjectContextObjectsDidChangeNotification.
+2. Create to the method that will handle the notification. It should
+   accept just one NSNotification* paramter, and invoke the method of
+   the main MOC that takes the notificaiton and merges the changes.
+3. Remember to deregister for receiving notifications in
+   applicationWillTerminate.
+4. Run the application an see if the data is shown.
+5. Stop the app and delete the database.
+

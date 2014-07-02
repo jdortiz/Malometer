@@ -20,6 +20,16 @@ NSString *const agentPropertyPictureUUID = @"pictureUUID";
 
 @implementation Agent (Model)
 
+#pragma mark - Convenience constructor
+
++ (instancetype) agentInMOC:(NSManagedObjectContext *)moc withName:(NSString *)name {
+    Agent *agent = [NSEntityDescription insertNewObjectForEntityForName:agentEntityName
+                                                 inManagedObjectContext:moc];
+    agent.name = name;
+    return agent;
+}
+
+
 #pragma mark - Model logic
 
 - (NSNumber *) assessment {

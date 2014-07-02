@@ -9,23 +9,48 @@
 
 #import "JOFAppDelegate.h"
 #import "JOFAgentsViewController.h"
+#import "FreakType+Model.h"
+#import "Agent+Model.h"
+
+
+@interface JOFAppDelegate()
+
+@property (strong, nonatomic) NSNotificationCenter *notificationCenter;
+
+@end
+
 
 
 @implementation JOFAppDelegate
 
 @synthesize managedObjectContext = _managedObjectContext;
+@synthesize backgroundMOC = _backgroundMOC;
 @synthesize managedObjectModel = _managedObjectModel;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
-    // Override point for customization after application launch.
+#pragma mark - Constants & Parameters
+
+static NSUInteger importedObjectCount = 10000;
+
+
+#pragma mark - Application lifecycle
+
+- (BOOL) application:(UIApplication *)application
+didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [self registerForChangesInMOCNotifications];
+    [self importDataInMOC:self.backgroundMOC];
+    [self prepareRootViewController];
+    return YES;
+}
+
+
+- (void) prepareRootViewController {
     UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
     JOFAgentsViewController *controller = (JOFAgentsViewController *)navigationController.topViewController;
     controller.managedObjectContext = self.managedObjectContext;
-    return YES;
 }
-							
+
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -52,10 +77,48 @@
 {
     // Saves changes in the application's managed object context before the application terminates.
     [self saveContext];
+    [self deregisterForChangesInMOCNotifications];
 }
 
-- (void)saveContext
-{
+
+#pragma mark - Notifications
+
+- (void) registerForChangesInMOCNotifications {
+    [self.notificationCenter addObserver:self selector:@selector(mergeChangesSavedToContext:)
+                                    name:NSManagedObjectContextDidSaveNotification
+                                  object:self.backgroundMOC];
+}
+
+- (void) deregisterForChangesInMOCNotifications {
+    [self.notificationCenter removeObserver:self
+                                       name:NSManagedObjectContextDidSaveNotification
+                                     object:self.backgroundMOC];
+}
+
+
+#pragma mark - Core Data operations
+
+- (void) importDataInMOC:(NSManagedObjectContext *)moc {
+    [moc performBlock:^{
+        for (NSUInteger i = 0; i < importedObjectCount; i++) {
+            FreakType *freakType = [FreakType freakTypeInMOC:moc
+                                                    withName:@"Monster"];
+            Agent *agent = [Agent agentInMOC:moc
+                                    withName:[NSString stringWithFormat:@"Agent %u",i]];
+            agent.category = freakType;
+            usleep(5000000/importedObjectCount);
+        }
+        [moc save:NULL];
+    }];
+}
+
+
+- (void) mergeChangesSavedToContext:(NSNotification *)notification {
+    [self.managedObjectContext mergeChangesFromContextDidSaveNotification:notification];
+}
+
+
+- (void) saveContext {
     NSError *error = nil;
     NSManagedObjectContext *managedObjectContext = self.managedObjectContext;
     if (managedObjectContext != nil) {
@@ -68,26 +131,37 @@
     }
 }
 
+
 #pragma mark - Core Data stack
 
 // Returns the managed object context for the application.
 // If the context doesn't already exist, it is created and bound to the persistent store coordinator for the application.
-- (NSManagedObjectContext *)managedObjectContext
-{
-    if (_managedObjectContext != nil) {
-        return _managedObjectContext;
-    }
-    
-    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
-    if (coordinator != nil) {
-        _managedObjectContext = [[NSManagedObjectContext alloc] init];
-        [_managedObjectContext setPersistentStoreCoordinator:coordinator];
-        
-        [self prepareUndoManagerForContext:_managedObjectContext];
-        
+- (NSManagedObjectContext *) managedObjectContext {
+    if (_managedObjectContext == nil) {
+        NSPersistentStoreCoordinator *coordinator = self.persistentStoreCoordinator;
+        if (coordinator != nil) {
+            _managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+            _managedObjectContext.persistentStoreCoordinator = coordinator;
+            
+            [self prepareUndoManagerForContext:_managedObjectContext];
+            
+        }
     }
     return _managedObjectContext;
 }
+
+
+- (NSManagedObjectContext *) backgroundMOC {
+    if (_backgroundMOC == nil) {
+        _backgroundMOC = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+        NSPersistentStoreCoordinator *coordinator = self.persistentStoreCoordinator;
+        if (coordinator) {
+            self.backgroundMOC.persistentStoreCoordinator = coordinator;
+        }
+    }
+    return _backgroundMOC;
+}
+
 
 - (void) prepareUndoManagerForContext:(NSManagedObjectContext *)moc {
     moc.undoManager = [[NSUndoManager alloc] init];
@@ -152,6 +226,17 @@
     
     return _persistentStoreCoordinator;
 }
+
+
+#pragma mark - Lazy instantiation properties for dependency injection
+
+- (NSNotificationCenter *) notificationCenter {
+    if (_notificationCenter == nil) {
+        _notificationCenter = [NSNotificationCenter defaultCenter];
+    }
+    return _notificationCenter;
+}
+
 
 #pragma mark - Application's Documents directory
 
