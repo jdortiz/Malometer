@@ -15,6 +15,10 @@
 
 @interface JOFAppDelegate()
 
+@property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+@property (readonly, strong, nonatomic) NSManagedObjectContext *backgroundMOC;
+@property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
+@property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @property (strong, nonatomic) NSNotificationCenter *notificationCenter;
 
 @end
@@ -156,7 +160,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
         _backgroundMOC = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
         NSPersistentStoreCoordinator *coordinator = self.persistentStoreCoordinator;
         if (coordinator) {
-            self.backgroundMOC.persistentStoreCoordinator = coordinator;
+            _backgroundMOC.persistentStoreCoordinator = coordinator;
         }
     }
     return _backgroundMOC;
