@@ -15,6 +15,7 @@
 
 @interface JOFAppDelegate()
 
+@property (readonly, strong, nonatomic) NSManagedObjectContext *rootMOC;
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (readonly, strong, nonatomic) NSManagedObjectContext *backgroundMOC;
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
@@ -27,6 +28,7 @@
 
 @implementation JOFAppDelegate
 
+@synthesize rootMOC = _rootMOC;
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize backgroundMOC = _backgroundMOC;
 @synthesize managedObjectModel = _managedObjectModel;
@@ -41,7 +43,7 @@ static NSUInteger importedObjectCount = 10000;
 
 - (BOOL) application:(UIApplication *)application
 didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [self registerForChangesInMOCNotifications];
+//    [self registerForChangesInMOCNotifications];
     [self importDataInMOC:self.backgroundMOC];
     [self prepareRootViewController];
     return YES;
@@ -81,24 +83,24 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 {
     // Saves changes in the application's managed object context before the application terminates.
     [self saveContext];
-    [self deregisterForChangesInMOCNotifications];
+//    [self deregisterForChangesInMOCNotifications];
 }
 
 
 #pragma mark - Notifications
 
-- (void) registerForChangesInMOCNotifications {
-    [self.notificationCenter addObserver:self selector:@selector(mergeChangesSavedToContext:)
-                                    name:NSManagedObjectContextDidSaveNotification
-                                  object:self.backgroundMOC];
-}
-
-- (void) deregisterForChangesInMOCNotifications {
-    [self.notificationCenter removeObserver:self
-                                       name:NSManagedObjectContextDidSaveNotification
-                                     object:self.backgroundMOC];
-}
-
+//- (void) registerForChangesInMOCNotifications {
+//    [self.notificationCenter addObserver:self selector:@selector(mergeChangesSavedToContext:)
+//                                    name:NSManagedObjectContextDidSaveNotification
+//                                  object:self.backgroundMOC];
+//}
+//
+//- (void) deregisterForChangesInMOCNotifications {
+//    [self.notificationCenter removeObserver:self
+//                                       name:NSManagedObjectContextDidSaveNotification
+//                                     object:self.backgroundMOC];
+//}
+//
 
 #pragma mark - Core Data operations
 
@@ -115,12 +117,12 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
         [moc save:NULL];
     }];
 }
-
-
-- (void) mergeChangesSavedToContext:(NSNotification *)notification {
-    [self.managedObjectContext mergeChangesFromContextDidSaveNotification:notification];
-}
-
+//
+//
+//- (void) mergeChangesSavedToContext:(NSNotification *)notification {
+//    [self.managedObjectContext mergeChangesFromContextDidSaveNotification:notification];
+//}
+//
 
 - (void) saveContext {
     NSError *error = nil;
@@ -138,30 +140,32 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
 #pragma mark - Core Data stack
 
-// Returns the managed object context for the application.
-// If the context doesn't already exist, it is created and bound to the persistent store coordinator for the application.
 - (NSManagedObjectContext *) managedObjectContext {
     if (_managedObjectContext == nil) {
-        NSPersistentStoreCoordinator *coordinator = self.persistentStoreCoordinator;
-        if (coordinator != nil) {
-            _managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-            _managedObjectContext.persistentStoreCoordinator = coordinator;
-            
-            [self prepareUndoManagerForContext:_managedObjectContext];
-            
-        }
+        _managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+        _managedObjectContext = self.rootMOC;
+        [self prepareUndoManagerForContext:_managedObjectContext];
     }
     return _managedObjectContext;
+}
+
+
+- (NSManagedObjectContext *) rootMOC {
+    if (_rootMOC == nil) {
+        NSPersistentStoreCoordinator *coordinator = self.persistentStoreCoordinator;
+        if (coordinator != nil) {
+            _rootMOC = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+            _rootMOC.persistentStoreCoordinator = coordinator;
+        }
+    }
+    return _rootMOC;
 }
 
 
 - (NSManagedObjectContext *) backgroundMOC {
     if (_backgroundMOC == nil) {
         _backgroundMOC = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-        NSPersistentStoreCoordinator *coordinator = self.persistentStoreCoordinator;
-        if (coordinator) {
-            _backgroundMOC.persistentStoreCoordinator = coordinator;
-        }
+        _backgroundMOC.parentContext = self.managedObjectContext;
     }
     return _backgroundMOC;
 }
