@@ -471,10 +471,10 @@ Understand the current status of the model.
    project is. Execute the following command and keep what follows
    NSStoreModelVersionHashesVersion resulting from the last one.
 
-    $ sqlite Malometer.sqlite
-    $ select * from sqlite_master where type='table';
-    $ select * from Z_METADATA;
-    $ .quit
+    $ sqlite3 Malometer.sqlite
+    > select * from sqlite_master where type='table';
+    > select * from Z_METADATA;
+    > .quit
 
 ### Adding a new model version (10 min) ###
 
@@ -650,13 +650,15 @@ know about the changes.
 Receive the notifications produced by the background context when
 it saves the changes to merge them.
 
-1. Right after the application ends launcing, register to attend to
+1. Move the Core Data properties of the app delegate to private
+   interface.
+2. Right after the application ends launcing, register to attend to
    the NSManagedObjectContextObjectsDidChangeNotification.
-2. Create to the method that will handle the notification. It should
+3. Create to the method that will handle the notification. It should
    accept just one NSNotification* paramter, and invoke the method of
    the main MOC that takes the notificaiton and merges the changes.
-3. Remember to deregister for receiving notifications in
+4. Remember to deregister for receiving notifications in
    applicationWillTerminate.
-4. Run the application an see if the data is shown.
-5. Stop the app and delete the database.
+5. Run the application an see if the data is shown.
+6. Stop the app and delete the database.
 
