@@ -16,6 +16,7 @@
 @implementation JOFAppDelegate
 
 @synthesize managedObjectContext = _managedObjectContext;
+@synthesize backgroundMOC = _backgroundMOC;
 @synthesize managedObjectModel = _managedObjectModel;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 
@@ -28,7 +29,7 @@ static NSUInteger importedObjectCount = 10000;
 
 - (BOOL) application:(UIApplication *)application
 didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [self importDataInMOC:self.managedObjectContext];
+    [self importDataInMOC:self.backgroundMOC];
     [self prepareRootViewController];
     return YES;
 }
@@ -68,6 +69,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Saves changes in the application's managed object context before the application terminates.
     [self saveContext];
 }
+
 
 #pragma mark - Core Data operations
 
@@ -117,6 +119,19 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     }
     return _managedObjectContext;
 }
+
+
+- (NSManagedObjectContext *) backgroundMOC {
+    if (_backgroundMOC == nil) {
+        _backgroundMOC = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+        NSPersistentStoreCoordinator *coordinator = self.persistentStoreCoordinator;
+        if (coordinator) {
+            self.backgroundMOC.persistentStoreCoordinator = coordinator;
+        }
+    }
+    return _backgroundMOC;
+}
+
 
 - (void) prepareUndoManagerForContext:(NSManagedObjectContext *)moc {
     moc.undoManager = [[NSUndoManager alloc] init];
@@ -181,6 +196,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     return _persistentStoreCoordinator;
 }
+
 
 #pragma mark - Application's Documents directory
 

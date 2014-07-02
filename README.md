@@ -638,19 +638,12 @@ know about the changes.
    this context with concurrency type private queue.
 3. Remember to set the persistent coordinator of this context to the
    existing one.
-4. Change the creation main managed object context so it uses main
-   queue concurrency type.
-5. Change the context used as parameter for the importer method to
+4. Change the context used as parameter for the importer method to
    the background one.
 6. Run the app and wait for 15 seconds. Why doesn't it appear?
 7. Use =sqlite3= to query the database to check if the data has been
    imported in saved.
 8. Stop the app and delete the database.
-
-Comments about:
-- Notice the interface doesn't stop responding.
-- Why one moc doesn't know about the changes in the other one.
-- I don't assign an undoManager to the background MOC. It would be a waste.
 
 ### Making the main context aware of the changes in the other (10 min) ###
 
@@ -666,9 +659,4 @@ it saves the changes to merge them.
    applicationWillTerminate.
 4. Run the application an see if the data is shown.
 5. Stop the app and delete the database.
-
-Comments about:
-- NSNotificationCenter propery with lazy instatiaton for dependency
-  injection.
-- The last parameter in the registration (object) is the background moc.
 
