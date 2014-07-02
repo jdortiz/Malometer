@@ -13,6 +13,14 @@
 #import "Agent+Model.h"
 
 
+@interface JOFAppDelegate()
+
+@property (strong, nonatomic) NSNotificationCenter *notificationCenter;
+
+@end
+
+
+
 @implementation JOFAppDelegate
 
 @synthesize managedObjectContext = _managedObjectContext;
@@ -29,6 +37,7 @@ static NSUInteger importedObjectCount = 10000;
 
 - (BOOL) application:(UIApplication *)application
 didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [self registerForChangesInMOCNotifications];
     [self importDataInMOC:self.backgroundMOC];
     [self prepareRootViewController];
     return YES;
@@ -68,6 +77,22 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 {
     // Saves changes in the application's managed object context before the application terminates.
     [self saveContext];
+    [self deregisterForChangesInMOCNotifications];
+}
+
+
+#pragma mark - Notifications
+
+- (void) registerForChangesInMOCNotifications {
+    [self.notificationCenter addObserver:self selector:@selector(mergeChangesSavedToContext:)
+                                    name:NSManagedObjectContextDidSaveNotification
+                                  object:self.backgroundMOC];
+}
+
+- (void) deregisterForChangesInMOCNotifications {
+    [self.notificationCenter removeObserver:self
+                                       name:NSManagedObjectContextDidSaveNotification
+                                     object:self.backgroundMOC];
 }
 
 
@@ -85,6 +110,11 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
         }
         [moc save:NULL];
     }];
+}
+
+
+- (void) mergeChangesSavedToContext:(NSNotification *)notification {
+    [self.managedObjectContext mergeChangesFromContextDidSaveNotification:notification];
 }
 
 
@@ -195,6 +225,16 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     }    
     
     return _persistentStoreCoordinator;
+}
+
+
+#pragma mark - Lazy instantiation properties for dependency injection
+
+- (NSNotificationCenter *) notificationCenter {
+    if (_notificationCenter == nil) {
+        _notificationCenter = [NSNotificationCenter defaultCenter];
+    }
+    return _notificationCenter;
 }
 
 
