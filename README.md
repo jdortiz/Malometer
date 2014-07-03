@@ -626,7 +626,7 @@ Prepare the method to change the MOC.
 Comment:
 - It should be easier than the previous versions and less leaks.
 
-### Create an independent background context (15 min) ###
+### Create an independent background context (20 min) ###
 
 Have a different context to perform the time consuming process in a
 background queue. The database must be empty at the beginning of this
@@ -662,3 +662,33 @@ it saves the changes to merge them.
 5. Run the application an see if the data is shown.
 6. Stop the app and delete the database.
 
+### Creating the nested contexts alternative (30 min) ###
+
+Use nested context to have the parent updated automatically.
+
+1. Add a third MOC property and call it rootMOC.
+2. Synthesize the property.
+3. Make a copy of the backgroundMOC getter and rename it
+   rootMOC (and the ivars used inside must be _rootMOC.)
+4. The managedObjectContext (also known as mainMOC.) getter needs to
+   do the following things:
+   1. Perform lazy instanciation.
+   2. Instanciate the MOC with concurrency type Main.
+   3. Become the child of the rootMOC
+   4. Assign the undoManager to it.
+   5. And return that value.
+5. The rootMOC getter needs to do the following things:
+   1. Perform lazy instanciation.
+   2. Verify the persistent coordinator exists.
+   3. If it does, instanciate the MOC with concurrency type Private Queue.
+   4. Assign the persistence coordinator to its property.
+   5. And return that value.
+6. The backgroundMOC is much easier now:
+   1. Performs lazy instantiation.
+   2. Instanciates it with private queue concurrency type.
+   3. Become the child of the managedObjectContext (or mainMOC)
+7. Remove the registration and deregistration for the notification of
+   the MOC changes and the method for that.
+8. Run the app and wait until the objects appear on the table view.
+9. Check the contents of the database.
+10. Stop and delete the database.
