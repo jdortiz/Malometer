@@ -653,7 +653,7 @@ it saves the changes to merge them.
 1. Move the Core Data properties of the app delegate to private
    interface.
 2. Right after the application ends launcing, register to attend to
-   the NSManagedObjectContextObjectsDidChangeNotification.
+   the NSManagedObjectContextDidSaveNotification
 3. Create to the method that will handle the notification. It should
    accept just one NSNotification* paramter, and invoke the method of
    the main MOC that takes the notificaiton and merges the changes.
