@@ -143,7 +143,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 - (NSManagedObjectContext *) managedObjectContext {
     if (_managedObjectContext == nil) {
         _managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-        _managedObjectContext = self.rootMOC;
+        _managedObjectContext.parentContext = self.rootMOC;
         [self prepareUndoManagerForContext:_managedObjectContext];
     }
     return _managedObjectContext;
